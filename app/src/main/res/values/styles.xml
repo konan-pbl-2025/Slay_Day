@@ -2,7 +2,6 @@
 <resources>
 
     <style name="TopHalfDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:windowGravity">top</item>
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 </resources>

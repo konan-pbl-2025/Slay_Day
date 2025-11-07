@@ -7,11 +7,5 @@
 
     <style name="Theme.Slay_Day" parent="Base.Theme.Slay_Day" />
 
-    <resources>
-        <style name="TopHalfDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
-            <item name="android:windowGravity">top</item>
-            <item name="android:windowBackground">@android:color/transparent</item>
-        </style>
 
-    </resources>
 </resources>

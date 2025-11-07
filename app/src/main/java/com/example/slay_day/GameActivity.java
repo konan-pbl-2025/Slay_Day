@@ -2,8 +2,10 @@ package com.example.slay_day;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -84,5 +86,8 @@ public class GameActivity extends AppCompatActivity {
         });
 
         dialog.show();
+        WindowManager.LayoutParams wlp = dialog.getWindow().getAttributes();
+        wlp.gravity = Gravity.TOP; // 画面の上部に配置
+        dialog.getWindow().setAttributes(wlp);
     }
 }
