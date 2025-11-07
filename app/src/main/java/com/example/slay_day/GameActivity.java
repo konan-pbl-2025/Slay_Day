@@ -1,6 +1,7 @@
 package com.example.slay_day;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -18,7 +19,7 @@ import java.util.Random;
 
 public class GameActivity extends AppCompatActivity {
     Random rand = new Random();
-    ArrayList <Integer> cardColler = new ArrayList<>();//0が赤,1が青,2が緑
+    ArrayList <Integer> cardColor = new ArrayList<>();//0が赤,1が青,2が緑
     ArrayList <Integer> cardNum = new ArrayList<>();//カードの番号
     ArrayList <Integer> cardType = new ArrayList<>();//カードの種類
 
@@ -26,12 +27,13 @@ public class GameActivity extends AppCompatActivity {
     int EnemyHP = rand.nextInt(10)+1;
     int EnemyATK = rand.nextInt(10)+1;
     int[][] EnemyState = new int[5][5];//やけどで例えると一次はやけどかどうか、二次はやけどが何ターン続くか
+    boolean Dochange=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        cardColler=randomColler(cardColler);
-        cardNum=randomNum(cardNum);
-        cardType=randomType(cardType);
+        cardColor=randomColor();
+        cardNum=randomNum();
+        cardType=randomType();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
@@ -42,26 +44,25 @@ public class GameActivity extends AppCompatActivity {
         ImageView col4 = (ImageView)findViewById(R.id.imageView13);
         ImageView col5 = (ImageView)findViewById(R.id.imageView14);
         for(int i=0;i<5;i++){
-            if(cardColler.get(i)==0&&i==0) col1.setImageResource(R.drawable.red_element);
-            if(cardColler.get(i)==1&&i==0) col1.setImageResource(R.drawable.blue_element);
-            if(cardColler.get(i)==2&&i==0) col1.setImageResource(R.drawable.green_element);
+            if(cardColor.get(i)==0&&i==0) col1.setImageResource(R.drawable.red_element);
+            if(cardColor.get(i)==1&&i==0) col1.setImageResource(R.drawable.blue_element);
+            if(cardColor.get(i)==2&&i==0) col1.setImageResource(R.drawable.green_element);
 
-            if(cardColler.get(i)==0&&i==1) col2.setImageResource(R.drawable.red_element);
-            if(cardColler.get(i)==1&&i==1) col2.setImageResource(R.drawable.blue_element);
-            if(cardColler.get(i)==2&&i==1) col2.setImageResource(R.drawable.green_element);
+            if(cardColor.get(i)==0&&i==1) col2.setImageResource(R.drawable.red_element);
+            if(cardColor.get(i)==1&&i==1) col2.setImageResource(R.drawable.blue_element);
+            if(cardColor.get(i)==2&&i==1) col2.setImageResource(R.drawable.green_element);
 
-            if(cardColler.get(i)==0&&i==2) col3.setImageResource(R.drawable.red_element);
-            if(cardColler.get(i)==1&&i==2) col3.setImageResource(R.drawable.blue_element);
-            if(cardColler.get(i)==2&&i==2) col3.setImageResource(R.drawable.green_element);
+            if(cardColor.get(i)==0&&i==2) col3.setImageResource(R.drawable.red_element);
+            if(cardColor.get(i)==1&&i==2) col3.setImageResource(R.drawable.blue_element);
+            if(cardColor.get(i)==2&&i==2) col3.setImageResource(R.drawable.green_element);
 
-            if(cardColler.get(i)==0&&i==3) col4.setImageResource(R.drawable.red_element);
-            if(cardColler.get(i)==1&&i==3) col4.setImageResource(R.drawable.blue_element);
-            if(cardColler.get(i)==2&&i==3) col4.setImageResource(R.drawable.green_element);
+            if(cardColor.get(i)==0&&i==3) col4.setImageResource(R.drawable.red_element);
+            if(cardColor.get(i)==1&&i==3) col4.setImageResource(R.drawable.blue_element);
+            if(cardColor.get(i)==2&&i==3) col4.setImageResource(R.drawable.green_element);
 
-            if(cardColler.get(i)==0&&i==4) col5.setImageResource(R.drawable.red_element);
-            if(cardColler.get(i)==1&&i==4) col5.setImageResource(R.drawable.blue_element);
-            if(cardColler.get(i)==2&&i==4) col5.setImageResource(R.drawable.green_element);
-
+            if(cardColor.get(i)==0&&i==4) col5.setImageResource(R.drawable.red_element);
+            if(cardColor.get(i)==1&&i==4) col5.setImageResource(R.drawable.blue_element);
+            if(cardColor.get(i)==2&&i==4) col5.setImageResource(R.drawable.green_element);
         }
 
         //カードの種類（表示だけはunicordの文字コードで管理してます）
@@ -100,6 +101,67 @@ public class GameActivity extends AppCompatActivity {
             if(i==3) cardNum4.setText(String.valueOf(cardNum.get(i)));
             if(i==4) cardNum5.setText(String.valueOf(cardNum.get(i)));
         }
+
+
+        Button changeButton = (Button) findViewById(R.id.button2);
+        changeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(Dochange){
+                    Dochange=false;
+                    //ここで決めなおし
+                    cardColor=randomColor();
+                    cardNum=randomNum();
+                    cardType=randomType();
+
+                    //カードの色
+                    for(int i=0;i<5;i++){
+                        if(cardColor.get(i)==0&&i==0) col1.setImageResource(R.drawable.red_element);
+                        if(cardColor.get(i)==1&&i==0) col1.setImageResource(R.drawable.blue_element);
+                        if(cardColor.get(i)==2&&i==0) col1.setImageResource(R.drawable.green_element);
+
+                        if(cardColor.get(i)==0&&i==1) col2.setImageResource(R.drawable.red_element);
+                        if(cardColor.get(i)==1&&i==1) col2.setImageResource(R.drawable.blue_element);
+                        if(cardColor.get(i)==2&&i==1) col2.setImageResource(R.drawable.green_element);
+
+                        if(cardColor.get(i)==0&&i==2) col3.setImageResource(R.drawable.red_element);
+                        if(cardColor.get(i)==1&&i==2) col3.setImageResource(R.drawable.blue_element);
+                        if(cardColor.get(i)==2&&i==2) col3.setImageResource(R.drawable.green_element);
+
+                        if(cardColor.get(i)==0&&i==3) col4.setImageResource(R.drawable.red_element);
+                        if(cardColor.get(i)==1&&i==3) col4.setImageResource(R.drawable.blue_element);
+                        if(cardColor.get(i)==2&&i==3) col4.setImageResource(R.drawable.green_element);
+
+                        if(cardColor.get(i)==0&&i==4) col5.setImageResource(R.drawable.red_element);
+                        if(cardColor.get(i)==1&&i==4) col5.setImageResource(R.drawable.blue_element);
+                        if(cardColor.get(i)==2&&i==4) col5.setImageResource(R.drawable.green_element);
+                    }
+
+                    //カードの種類
+                    for(int i=0;i<5;i++){
+                        char letter =(char)('a'+(cardType.get(i)-1));
+                        ID[i]=Character.toString(letter);
+                    }
+                    for(int i=0;i<5;i++){
+                        int resId = getResources().getIdentifier(ID[i], "drawable", getPackageName());
+                        if(i==0) card1.setImageResource(resId);
+                        if(i==1) card2.setImageResource(resId);
+                        if(i==2) card3.setImageResource(resId);
+                        if(i==3) card4.setImageResource(resId);
+                        if(i==4) card5.setImageResource(resId);
+                    }
+
+                    //カードの数字
+                    for(int i=0;i<5;i++){
+                        if(i==0) cardNum1.setText(String.valueOf(cardNum.get(i)));
+                        if(i==1) cardNum2.setText(String.valueOf(cardNum.get(i)));
+                        if(i==2) cardNum3.setText(String.valueOf(cardNum.get(i)));
+                        if(i==3) cardNum4.setText(String.valueOf(cardNum.get(i)));
+                        if(i==4) cardNum5.setText(String.valueOf(cardNum.get(i)));
+                    }
+                }
+            }
+        });
 
     }
 
@@ -170,21 +232,24 @@ public class GameActivity extends AppCompatActivity {
         wlp.gravity = Gravity.TOP; // 画面の上部に配置
         dialog.getWindow().setAttributes(wlp);
     }
-    private ArrayList randomColler(ArrayList cardColler){
+    private ArrayList<Integer> randomColor(){
+        ArrayList<Integer> cardColor = new ArrayList<>();
         Random rand = new Random();
         for(int i=0;i<5;i++){
-            cardColler.add(rand.nextInt(3));
+            cardColor.add(rand.nextInt(3));
         }
-        return cardColler;
+        return cardColor;
     }
-    private ArrayList randomType(ArrayList cardType){
+    private ArrayList randomType(){
+        ArrayList<Integer> cardType = new ArrayList<>();
         Random rand = new Random();
         for(int i=0;i<5;i++){
             cardType.add(rand.nextInt(5)+1);
         }
         return cardType;
     }
-    private ArrayList randomNum(ArrayList cardNum){
+    private ArrayList randomNum(){
+        ArrayList<Integer> cardNum = new ArrayList<>();
         Random rand = new Random();
         for(int i=0;i<5;i++){
             cardNum.add(rand.nextInt(5)+1);
