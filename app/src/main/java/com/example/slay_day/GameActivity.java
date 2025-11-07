@@ -111,9 +111,69 @@ public class GameActivity extends AppCompatActivity {
         cardTapViews[3] = (ImageView)findViewById(R.id.imageView10);
         cardTapViews[4] = (ImageView)findViewById(R.id.imageView9);
 
+        Button changeButton = (Button) findViewById(R.id.button2);
+        changeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(Dochange){
+                    Dochange=false;
+                    //ここで決めなおし
+                    cardColor=randomColor();
+                    cardNum=randomNum();
+                    cardType=randomType();
+
+                    //カードの色
+                    for(int i=0;i<5;i++){
+                        if(cardColor.get(i)==0&&i==0) col1.setImageResource(R.drawable.red_element);
+                        if(cardColor.get(i)==1&&i==0) col1.setImageResource(R.drawable.blue_element);
+                        if(cardColor.get(i)==2&&i==0) col1.setImageResource(R.drawable.green_element);
+
+                        if(cardColor.get(i)==0&&i==1) col2.setImageResource(R.drawable.red_element);
+                        if(cardColor.get(i)==1&&i==1) col2.setImageResource(R.drawable.blue_element);
+                        if(cardColor.get(i)==2&&i==1) col2.setImageResource(R.drawable.green_element);
+
+                        if(cardColor.get(i)==0&&i==2) col3.setImageResource(R.drawable.red_element);
+                        if(cardColor.get(i)==1&&i==2) col3.setImageResource(R.drawable.blue_element);
+                        if(cardColor.get(i)==2&&i==2) col3.setImageResource(R.drawable.green_element);
+
+                        if(cardColor.get(i)==0&&i==3) col4.setImageResource(R.drawable.red_element);
+                        if(cardColor.get(i)==1&&i==3) col4.setImageResource(R.drawable.blue_element);
+                        if(cardColor.get(i)==2&&i==3) col4.setImageResource(R.drawable.green_element);
+
+                        if(cardColor.get(i)==0&&i==4) col5.setImageResource(R.drawable.red_element);
+                        if(cardColor.get(i)==1&&i==4) col5.setImageResource(R.drawable.blue_element);
+                        if(cardColor.get(i)==2&&i==4) col5.setImageResource(R.drawable.green_element);
+                    }
+
+                    //カードの種類
+                    for(int i=0;i<5;i++){
+                        char letter =(char)('a'+(cardType.get(i)-1));
+                        ID[i]=Character.toString(letter);
+                    }
+                    for(int i=0;i<5;i++){
+                        int resId = getResources().getIdentifier(ID[i], "drawable", getPackageName());
+                        if(i==0) card1.setImageResource(resId);
+                        if(i==1) card2.setImageResource(resId);
+                        if(i==2) card3.setImageResource(resId);
+                        if(i==3) card4.setImageResource(resId);
+                        if(i==4) card5.setImageResource(resId);
+                    }
+
+                    //カードの数字
+                    for(int i=0;i<5;i++){
+                        if(i==0) cardNum1.setText(String.valueOf(cardNum.get(i)));
+                        if(i==1) cardNum2.setText(String.valueOf(cardNum.get(i)));
+                        if(i==2) cardNum3.setText(String.valueOf(cardNum.get(i)));
+                        if(i==3) cardNum4.setText(String.valueOf(cardNum.get(i)));
+                        if(i==4) cardNum5.setText(String.valueOf(cardNum.get(i)));
+                    }
+                }
+            }
+        });
+
         // 3つのArrayListを結合し、currentHandを作成し、リスナーを設定
         for (int i = 0; i < 5; i++){
-            int colorIndex = cardColler.get(i);
+            int colorIndex = cardColor.get(i);
             int cardNumValue = cardNum.get(i);
             int cardTypeValue = cardType.get(i); // カードの種類も利用可能
 
