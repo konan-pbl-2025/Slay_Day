@@ -1,6 +1,7 @@
 package com.example.slay_day;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -21,6 +22,8 @@ public class GameActivity extends AppCompatActivity {
     ArrayList <Integer> cardColler = new ArrayList<>();//0が赤,1が青,2が緑
     ArrayList <Integer> cardNum = new ArrayList<>();//カードの番号
     ArrayList <Integer> cardType = new ArrayList<>();//カードの種類
+
+    private ArrayList<CardData> currentHand = new ArrayList<>();
 
     int PlayerHP = rand.nextInt(10)+1;
     int EnemyHP = rand.nextInt(10)+1;
@@ -99,6 +102,62 @@ public class GameActivity extends AppCompatActivity {
             if(i==2) cardNum3.setText(String.valueOf(cardNum.get(i)));
             if(i==3) cardNum4.setText(String.valueOf(cardNum.get(i)));
             if(i==4) cardNum5.setText(String.valueOf(cardNum.get(i)));
+        }
+
+        ImageView[] cardTapViews = new ImageView[5];
+        cardTapViews[0] = (ImageView)findViewById(R.id.imageView11);
+        cardTapViews[1] = (ImageView)findViewById(R.id.imageView12);
+        cardTapViews[2] = (ImageView)findViewById(R.id.imageView8);
+        cardTapViews[3] = (ImageView)findViewById(R.id.imageView10);
+        cardTapViews[4] = (ImageView)findViewById(R.id.imageView9);
+
+        // 3つのArrayListを結合し、currentHandを作成し、リスナーを設定
+        for(int i = 0; i < 5; i++){
+            int colorIndex = cardColler.get(i);
+            int cardNumValue = cardNum.get(i);
+            int cardTypeValue = cardType.get(i); // カードの種類も利用可能
+
+            // CardDataに格納するための情報決定
+            String cardName;
+            String cardEffect;
+            int colorInt; // ダイアログの背景色用 (Color.REDなどのARGB値)
+
+            // 🔴 ランダムな色に基づいてカード名と効果を設定するロジック
+            switch (colorIndex) {
+                case 0: // 赤
+                    cardName = "攻撃カード (タイプ" + cardTypeValue + ")";
+                    cardEffect = "敵に" + cardNumValue * 2 + "ダメージを与えます。";
+                    colorInt = Color.RED;
+                    break;
+                case 1: // 青
+                    cardName = "防御カード (タイプ" + cardTypeValue + ")";
+                    cardEffect = cardNumValue + "のブロックを獲得します。";
+                    colorInt = Color.BLUE;
+                    break;
+                case 2: // 緑
+                    cardName = "スキルカード (タイプ" + cardTypeValue + ")";
+                    cardEffect = "エナジーを" + cardNumValue + "回復します。";
+                    colorInt = Color.GREEN;
+                    break;
+                default:
+                    cardName = "不明なカード";
+                    cardEffect = "効果なし";
+                    colorInt = Color.GRAY;
+            }
+
+            // 🔴 currentHandリストにCardDataオブジェクトを格納
+            CardData newCard = new CardData(cardName, cardEffect, cardNumValue, colorInt);
+            currentHand.add(newCard);
+
+            // 🔴 クリックリスナーの設定
+            final int cardIndex = i;
+            cardTapViews[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CardData selectedCard = currentHand.get(cardIndex);
+                    showCardDetail(selectedCard);
+                }
+            });
         }
 
     }
