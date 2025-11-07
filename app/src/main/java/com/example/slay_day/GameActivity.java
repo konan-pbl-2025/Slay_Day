@@ -112,7 +112,7 @@ public class GameActivity extends AppCompatActivity {
         cardTapViews[4] = (ImageView)findViewById(R.id.imageView9);
 
         // 3つのArrayListを結合し、currentHandを作成し、リスナーを設定
-        for(int i = 0; i < 5; i++){
+        for (int i = 0; i < 5; i++){
             int colorIndex = cardColler.get(i);
             int cardNumValue = cardNum.get(i);
             int cardTypeValue = cardType.get(i); // カードの種類も利用可能
@@ -122,30 +122,42 @@ public class GameActivity extends AppCompatActivity {
             String cardEffect;
             int colorInt; // ダイアログの背景色用 (Color.REDなどのARGB値)
 
-            // 🔴 ランダムな色に基づいてカード名と効果を設定するロジック
-            switch (colorIndex) {
-                case 0: // 赤
-                    cardName = "攻撃カード (タイプ" + cardTypeValue + ")";
-                    cardEffect = "敵に" + cardNumValue * 2 + "ダメージを与えます。";
-                    colorInt = Color.RED;
+            // 🔴 修正: カードの種類 (cardTypeValue) に基づいて名前と効果を設定
+            //         色 (colorIndex) は、効果決定には使用しない。
+
+            // カードの種類（cardTypeValue）に基づいて名前と効果を決定
+            switch (cardTypeValue) {
+                case 1: // cardTypeが1の場合（例として）
+                    cardName = "カードA (No." + cardNumValue + ")";
+                    cardEffect = "エナジーを" + cardNumValue + "回復。";
                     break;
-                case 1: // 青
-                    cardName = "防御カード (タイプ" + cardTypeValue + ")";
-                    cardEffect = cardNumValue + "のブロックを獲得します。";
-                    colorInt = Color.BLUE;
+                case 2: // cardTypeが2の場合
+                    cardName = "カードB (No." + cardNumValue + ")";
+                    cardEffect = "敵に" + cardNumValue * 3 + "ダメージを与える。";
                     break;
-                case 2: // 緑
-                    cardName = "スキルカード (タイプ" + cardTypeValue + ")";
-                    cardEffect = "エナジーを" + cardNumValue + "回復します。";
-                    colorInt = Color.GREEN;
-                    break;
+                // ... (他のカードタイプもあればcaseを追加)
                 default:
                     cardName = "不明なカード";
                     cardEffect = "効果なし";
+                    break;
+            }
+
+            // 🔴 色 (colorIndex) は、Color.XXXの値（ARGB値）に変換するだけに使う
+            switch (colorIndex) {
+                case 0: // 赤
+                    colorInt = Color.RED;
+                    break;
+                case 1: // 青
+                    colorInt = Color.BLUE;
+                    break;
+                case 2: // 緑
+                    colorInt = Color.GREEN;
+                    break;
+                default:
                     colorInt = Color.GRAY;
             }
 
-            // 🔴 currentHandリストにCardDataオブジェクトを格納
+            // 🔴 currentHandリストにCardDataオブジェクトを格納 (名前と効果はカード種類ベース、色はランダムベース)
             CardData newCard = new CardData(cardName, cardEffect, cardNumValue, colorInt);
             currentHand.add(newCard);
 
