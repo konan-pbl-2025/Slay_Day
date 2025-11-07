@@ -64,7 +64,7 @@ public class GameActivity extends AppCompatActivity {
 
         }
 
-        //カードの種類
+        //カードの種類（表示だけはunicordの文字コードで管理してます）
         ImageView card1 = (ImageView)findViewById(R.id.imageView11);
         ImageView card2 = (ImageView)findViewById(R.id.imageView12);
         ImageView card3 = (ImageView)findViewById(R.id.imageView8);
@@ -84,6 +84,23 @@ public class GameActivity extends AppCompatActivity {
             if(i==3) card4.setImageResource(resId);
             if(i==4) card5.setImageResource(resId);
         }
+
+
+        //カードの数字
+        TextView cardNum1 = (TextView)findViewById(R.id.textView4);
+        TextView cardNum2 = (TextView)findViewById(R.id.textView5);
+        TextView cardNum3 = (TextView)findViewById(R.id.textView8);
+        TextView cardNum4 = (TextView)findViewById(R.id.textView6);
+        TextView cardNum5 = (TextView)findViewById(R.id.textView7);
+
+        for(int i=0;i<5;i++){
+            if(i==0) cardNum1.setText(String.valueOf(cardNum.get(i)));
+            if(i==1) cardNum2.setText(String.valueOf(cardNum.get(i)));
+            if(i==2) cardNum3.setText(String.valueOf(cardNum.get(i)));
+            if(i==3) cardNum4.setText(String.valueOf(cardNum.get(i)));
+            if(i==4) cardNum5.setText(String.valueOf(cardNum.get(i)));
+        }
+
     }
 
     // 仮のカードデータ
