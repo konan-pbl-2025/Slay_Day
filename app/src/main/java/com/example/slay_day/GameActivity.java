@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,7 +34,33 @@ public class GameActivity extends AppCompatActivity {
         cardType=randomType(cardType);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        ImageView col1 = (ImageView)findViewById(R.id.imageView3);
+        ImageView col2 = (ImageView)findViewById(R.id.imageView2);
+        ImageView col3 = (ImageView)findViewById(R.id.imageView6);
+        ImageView col4 = (ImageView)findViewById(R.id.imageView13);
+        ImageView col5 = (ImageView)findViewById(R.id.imageView14);
+        for(int i=0;i<5;i++){
+            if(cardColler.get(i)==0&&i==0) col1.setImageResource(R.drawable.red_element);
+            if(cardColler.get(i)==1&&i==0) col1.setImageResource(R.drawable.blue_element);
+            if(cardColler.get(i)==2&&i==0) col1.setImageResource(R.drawable.green_element);
 
+            if(cardColler.get(i)==0&&i==1) col2.setImageResource(R.drawable.red_element);
+            if(cardColler.get(i)==1&&i==1) col2.setImageResource(R.drawable.blue_element);
+            if(cardColler.get(i)==2&&i==1) col2.setImageResource(R.drawable.green_element);
+
+            if(cardColler.get(i)==0&&i==2) col3.setImageResource(R.drawable.red_element);
+            if(cardColler.get(i)==1&&i==2) col3.setImageResource(R.drawable.blue_element);
+            if(cardColler.get(i)==2&&i==2) col3.setImageResource(R.drawable.green_element);
+
+            if(cardColler.get(i)==0&&i==3) col4.setImageResource(R.drawable.red_element);
+            if(cardColler.get(i)==1&&i==3) col4.setImageResource(R.drawable.blue_element);
+            if(cardColler.get(i)==2&&i==3) col4.setImageResource(R.drawable.green_element);
+
+            if(cardColler.get(i)==0&&i==4) col5.setImageResource(R.drawable.red_element);
+            if(cardColler.get(i)==1&&i==4) col5.setImageResource(R.drawable.blue_element);
+            if(cardColler.get(i)==2&&i==4) col5.setImageResource(R.drawable.green_element);
+
+        }
     }
 
     // 仮のカードデータ
