@@ -34,6 +34,8 @@ public class GameActivity extends AppCompatActivity {
         cardType=randomType(cardType);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        //カードの色関連
         ImageView col1 = (ImageView)findViewById(R.id.imageView3);
         ImageView col2 = (ImageView)findViewById(R.id.imageView2);
         ImageView col3 = (ImageView)findViewById(R.id.imageView6);
@@ -60,6 +62,27 @@ public class GameActivity extends AppCompatActivity {
             if(cardColler.get(i)==1&&i==4) col5.setImageResource(R.drawable.blue_element);
             if(cardColler.get(i)==2&&i==4) col5.setImageResource(R.drawable.green_element);
 
+        }
+
+        //カードの種類
+        ImageView card1 = (ImageView)findViewById(R.id.imageView11);
+        ImageView card2 = (ImageView)findViewById(R.id.imageView12);
+        ImageView card3 = (ImageView)findViewById(R.id.imageView8);
+        ImageView card4 = (ImageView)findViewById(R.id.imageView10);
+        ImageView card5 = (ImageView)findViewById(R.id.imageView9);
+        String[] cardID = {"a","b","c","d","e"};
+        String [] ID = new String[5];
+        for(int i=0;i<5;i++){
+            char letter =(char)('a'+(cardType.get(i)-1));
+            ID[i]=Character.toString(letter);
+        }
+        for(int i=0;i<5;i++){
+            int resId = getResources().getIdentifier(ID[i], "drawable", getPackageName());
+            if(i==0) card1.setImageResource(resId);
+            if(i==1) card2.setImageResource(resId);
+            if(i==2) card3.setImageResource(resId);
+            if(i==3) card4.setImageResource(resId);
+            if(i==4) card5.setImageResource(resId);
         }
     }
 
@@ -140,7 +163,7 @@ public class GameActivity extends AppCompatActivity {
     private ArrayList randomType(ArrayList cardType){
         Random rand = new Random();
         for(int i=0;i<5;i++){
-            cardType.add(1);
+            cardType.add(rand.nextInt(5)+1);
         }
         return cardType;
     }
