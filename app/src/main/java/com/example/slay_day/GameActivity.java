@@ -18,7 +18,7 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
-    public void cardRandom(){
+    private void cardRandom(ArrayList cardColler, ArrayList cardNum, ArrayList cardType){
         Random rand = new Random();
         for(int i=0;i<5;i++){
             cardType.add(1);
