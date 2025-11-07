@@ -3,30 +3,23 @@ package com.example.slay_day;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import java.util.*;
+import java.util.Random;
 
 public class GameActivity extends AppCompatActivity {
-
+    ArrayList <Integer> cardColler = new ArrayList<>();//0が赤,1が青,2が緑
+    ArrayList <Integer> cardNum = new ArrayList<>();//カードの番号
+    ArrayList <Integer> cardType = new ArrayList<>();//カードの種類
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
     }
 
-
-
-
-
-
-
-
     public void cardRandom(){
         Random rand = new Random();
-        ArrayList <Integer> cardColler = new ArrayList<>();
-        ArrayList <Integer> cardNum = new ArrayList<>();
-        ArrayList <Integer> cardType = new ArrayList<>();
         for(int i=0;i<5;i++){
             cardType.add(1);
         }
@@ -37,4 +30,5 @@ public class GameActivity extends AppCompatActivity {
             cardNum.add(rand.nextInt(5)+1);
         }
     }
+
 }
