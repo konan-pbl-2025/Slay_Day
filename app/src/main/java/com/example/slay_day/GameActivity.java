@@ -128,14 +128,102 @@ public class GameActivity extends AppCompatActivity {
             // カードの種類（cardTypeValue）に基づいて名前と効果を決定
             switch (cardTypeValue) {
                 case 1: // cardTypeが1の場合（例として）
-                    cardName = "カードA (No." + cardNumValue + ")";
-                    cardEffect = "エナジーを" + cardNumValue + "回復。";
+                    cardName = "バット (No." + cardNumValue + ")";
+                    cardEffect = "敵に" + cardNumValue * 3  + "ダメージを与える。";
                     break;
                 case 2: // cardTypeが2の場合
-                    cardName = "カードB (No." + cardNumValue + ")";
-                    cardEffect = "敵に" + cardNumValue * 3 + "ダメージを与える。";
+                    cardName = "パンチ (No." + cardNumValue + ")";
+                    cardEffect = "敵に" + cardNumValue + "ダメージを与える。";
                     break;
-                // ... (他のカードタイプもあればcaseを追加)
+                case 3:
+                    cardName = "キック(No." + cardNumValue + ")";
+                    cardEffect = "敵に2ダメージを与える。";
+                    break;
+                case 4:
+                    cardName = "天然水(No." + cardNumValue + ")";
+                    cardEffect = "自分の体力を2回復する。";
+                    break;
+                case 5:
+                    cardName = "スポドリ(No." + cardNumValue + ")";
+                    cardEffect = "自分の体力を5回復する。";
+                    break;
+                case 6:
+                    cardName = "ファイア(No." + cardNumValue + ")";
+                    cardEffect = "敵に5ダメージを与える。";
+                    break;
+                case 7:
+                    cardName = "マッチ(No." + cardNumValue + ")";
+                    cardEffect = "敵を火傷状態にする。";
+                    break;
+                case 8:
+                    cardName = "火の魔導書(No." + cardNumValue + ")";
+                    cardEffect = "火傷している敵の受けるダメージを2倍にする。";
+                    break;
+                case 9:
+                    cardName = "ファイアパンチ(No." + cardNumValue + ")";
+                    cardEffect = "敵に2ダメージを与え、敵を火傷状態にする。";
+                    break;
+                case 10:
+                    cardName = "皮の服(No." + cardNumValue + ")";
+                    cardEffect = "次に受けるダメージを‐1する。";
+                    break;
+                case 11:
+                    cardName = "鉄の鎧(No." + cardNumValue + ")";
+                    cardEffect = "次に受けるダメージを‐5する。";
+                    break;
+                case 12:
+                    cardName = "ヒーローマント(No." + cardNumValue + ")";
+                    cardEffect = "このターンに使うパンチ、キックのダメージが2倍になる。";
+                    break;
+                case 13:
+                    cardName = "アクア(No." + cardNumValue + ")";
+                    cardEffect = "敵に2ダメージ与え、自分の体力を2回復する。";
+                    break;
+                case 14:
+                    cardName = "アクアジェット(No." + cardNumValue + ")";
+                    cardEffect = "敵に2ダメージ与え、自分の体力を4回復する。";
+                    break;
+                case 15:
+                    cardName = "水の魔導書(No." + cardNumValue + ")";
+                    cardEffect = "自分の体力を10回復する。";
+                    break;
+                case 16:
+                    cardName = "津波(No." + cardNumValue + ")";
+                    cardEffect = "自分が回復した分のダメージを与える。";
+                    break;
+                case 17:
+                    cardName = "エクゾディア(No." + cardNumValue + ")";
+                    cardEffect = "このカードが5枚揃うと無条件に勝利する。";
+                    break;
+                case 18:
+                    cardName = "リーフ(No." + cardNumValue + ")";
+                    cardEffect = "敵に4ダメージを与える。";
+                    break;
+                case 19:
+                    cardName = "肥料(No." + cardNumValue + ")";
+                    cardEffect = "自分の最大体力を＋2する。";
+                    break;
+                case 20:
+                    cardName = "木の魔導書(No." + cardNumValue + ")";
+                    cardEffect = "自分の最大体力を＋4する。";
+                    break;
+                case 21:
+                    cardName = "だいちのいかり(No." + cardNumValue + ")";
+                    cardEffect = "現在の自分の体力分のダメージを与える。";
+                    break;
+                case 22:
+                    cardName = "炎の魔導書(No." + cardNumValue + ")";
+                    cardEffect = "火傷している敵の受けるダメージが4倍になる。";
+                    break;
+                case 23:
+                    cardName = "滝の魔導書(No." + cardNumValue + ")";
+                    cardEffect = "自分が敵に与えたダメージの分自分を回復する。";
+                    break;
+                case 24:
+                    cardName = "森の魔導書(No." + cardNumValue + ")";
+                    cardEffect = "自分の最大体力を＋10する。";
+                    break;
+
                 default:
                     cardName = "不明なカード";
                     cardEffect = "効果なし";
@@ -251,7 +339,7 @@ public class GameActivity extends AppCompatActivity {
     private ArrayList randomType(ArrayList cardType){
         Random rand = new Random();
         for(int i=0;i<5;i++){
-            cardType.add(rand.nextInt(5)+1);
+            cardType.add(rand.nextInt(24)+1);
         }
         return cardType;
     }
