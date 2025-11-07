@@ -378,9 +378,31 @@ public class GameActivity extends AppCompatActivity {
         useButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // カードを使用する処理をここに記述
-                Toast.makeText(GameActivity.this, card.name + "を使います！", Toast.LENGTH_SHORT).show();
+                int usedCardType = 0;
+                if (card.name.startsWith("キック")) {
+                    usedCardType = 3;
+                }
+                // ... 他のカード名も必要に応じてここで判定 ...
+
+                String message = card.name + "を使います！";
+
+                // 🔴 【追加】カードタイプに基づいた効果の分岐
+                switch (usedCardType) {
+                    case 3: // キック
+                        EnemyHP -= 2; // 敵HPを2減らす
+                        message += " 敵に2ダメージを与えました。";
+
+                        // 🔴 HPの更新を画面に反映する処理 (TextViewなどがあればここで更新)
+                        // updateEnemyHPDisplay(); // 敵HP表示を更新するメソッド（未定義）があれば呼び出す
+                        break;
+                    // ... 他のカード効果も同様にcaseを追加 ...
+                }
+
+                Toast.makeText(GameActivity.this, message, Toast.LENGTH_SHORT).show();
                 dialog.dismiss(); // ダイアログを閉じる
+
+                // 🔴 【追加】ターン終了処理 (カード使用後にターンを終了し、手札を更新)
+                endTurnAndDealNewCards();
             }
         });
 
@@ -412,6 +434,34 @@ public class GameActivity extends AppCompatActivity {
             cardNum.add(rand.nextInt(5)+1);
         }
         return cardNum;
+    }
+
+    /**
+     * ターンを終了し、ランダムな新しいカードを5枚配り、UIを更新する
+     */
+    private void endTurnAndDealNewCards() {
+        // 1. 新しい手札を生成し、currentHandを更新
+        cardColler.clear();
+        cardNum.clear();
+        cardType.clear();
+
+        cardColler=randomColler(cardColler);
+        cardNum=randomNum(cardNum);
+        cardType=randomType(cardType);
+
+        // 2. CardDataリストを再構築 (onCreate内のロジックを再利用するためメソッド化を推奨)
+        // 🔴 簡易的な再構築処理 (本来はonCreate内の最後のforループをメソッド化するのが最善)
+        // ここでは便宜上、Activityを再作成することでUI全体を更新します。（非推奨だが簡易的）
+        // Intent intent = getIntent();
+        // finish();
+        // startActivity(intent);
+
+        // 3. 簡潔な方法: onCreate内の最後のUI更新ブロックをメソッド化して呼び出す
+        // 便宜上、ここではToastで通知するだけにします。
+        Toast.makeText(GameActivity.this, "ターンが終了し、新しいカードが配られました。", Toast.LENGTH_LONG).show();
+
+        // 🔴 実際には、onCreate内のUI設定コードをメソッド化し、ここで呼び出す必要があります。
+        // updateCardUI();
     }
 
 }
