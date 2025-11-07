@@ -23,8 +23,8 @@ public class GameActivity extends AppCompatActivity {
     ArrayList <Integer> cardType = new ArrayList<>();//カードの種類
 
     int PlayerHP = rand.nextInt(10)+1;
-    int EnemyHP = rand.nextInt(10)+1;
-    int EnemyATK = rand.nextInt(10)+1;
+    int[] EnemyHP = new int[5];//敵五体分のhp
+    int[] EnemyATK = new int[5];//敵五体分の攻撃力
     int[][] EnemyState = new int[5][5];//やけどで例えると一次はやけどかどうか、二次はやけどが何ターン続くか
 
     @Override
@@ -34,6 +34,11 @@ public class GameActivity extends AppCompatActivity {
         cardType=randomType(cardType);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        for(int i=0;i<5;i++){
+            EnemyHP[i]=rand.nextInt(10)+1;
+            EnemyATK[i]=rand.nextInt(10)+1;
+        }
 
         //カードの色関連
         ImageView col1 = (ImageView)findViewById(R.id.imageView3);
@@ -190,6 +195,15 @@ public class GameActivity extends AppCompatActivity {
             cardNum.add(rand.nextInt(5)+1);
         }
         return cardNum;
+    }
+
+    //ここから各カードの効果
+
+    private int bat(int EnemyHp){
+        int batDamage=2;//バットの攻撃力
+        int ans=0;//返り値
+        ans=EnemyHp-batDamage;
+        return ans;
     }
 
 }
