@@ -24,6 +24,7 @@ public class GameActivity extends AppCompatActivity {
 
     private ArrayList<CardData> currentHand = new ArrayList<>();
     private ArrayList<Integer> useCard = new ArrayList<>();
+    private HashSet<Integer> useCardSet = new HashSet<>();
 
     private int PlayerHP = 20;
     private int EnemyHP = 100;
@@ -39,7 +40,9 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         TextView TEXEnemyHP = findViewById(R.id.ENEHP);
+        TextView yaku = (TextView)findViewById(R.id.yaku);
         TEXEnemyHP.setText(String.valueOf(EnemyHP));
+
 
 
         //カードの色関連
@@ -116,6 +119,7 @@ public class GameActivity extends AppCompatActivity {
 
         //ボタンの定義
         Button changeButton = (Button) findViewById(R.id.button2);
+        Button PlayButton = (Button) findViewById(R.id.button3);
         changeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -307,6 +311,35 @@ public class GameActivity extends AppCompatActivity {
                         currentHand.add(newCard);
                     }
                 }
+            }
+        });
+
+        PlayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ArrayList <Integer> useCardNum = new ArrayList<>();
+                ArrayList <Integer> useCardColor = new ArrayList<>();
+                int total=0;
+                for(int i:useCard){
+                    useCardNum.add(cardNum.get(i));
+                    useCardColor.add(cardColor.get(i));
+                }
+                String ans=judgeHand(useCardNum,useCardColor);
+                yaku.setText(ans);
+                if(!ans.equals("ブタ")){
+                    for(int i:useCard){
+                        if(cardType.get(i)==1) bat();
+                        if(cardType.get(i)==2) punch();
+                        if(cardType.get(i)==3) kick();
+                        if(cardType.get(i)==4)tennensui();
+                        if(cardType.get(i)==5) sportsDrink();
+                        if(cardType.get(i)==6) fire();
+                    }
+                }else{
+                    bat();
+                }
+                TextView TEXEnemyHP = findViewById(R.id.ENEHP);
+                TEXEnemyHP.setText(String.valueOf(EnemyHP));
             }
         });
 
@@ -518,17 +551,12 @@ public class GameActivity extends AppCompatActivity {
         useButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // カード処理
-                if(card.name.contains("バット")) bat();
-                if(card.name.contains("パンチ")) punch();
-                if(card.name.contains("キック")) kick();
-                if(card.name.contains("天然水")) tennensui();
-                if(card.name.contains("スポドリ")) sportsDrink();
-                if(card.name.contains("ファイア")) fire();
-                useCard.add(i);
+                // カードを登録
+                if(!useCard.contains(i)) {
+                    useCard.add(i);
+                    useCardSet.add(i);
+                }
 
-                TextView TEXEnemyHP = findViewById(R.id.ENEHP);
-                TEXEnemyHP.setText(String.valueOf(EnemyHP));
                 Toast.makeText(GameActivity.this, card.name + "を使います！", Toast.LENGTH_SHORT).show();
                 dialog.dismiss(); // ダイアログを閉じる
             }
@@ -611,14 +639,18 @@ public class GameActivity extends AppCompatActivity {
             EnemyHP = EnemyHP - EnemyHidame;
         }
     }
+
     public static String judgeHand(ArrayList<Integer> cardNum, ArrayList<Integer> cardColor) {
+
+        int n = cardNum.size();
+        if (n < 1 || n > 5) return "カード枚数エラー";
 
         // --- 数字カウント ---
         Map<Integer, Integer> numCount = new HashMap<>();
         // --- 色カウント ---
         Map<Integer, Integer> colorCount = new HashMap<>();
 
-        for (int i = 0; i < cardNum.size(); i++) {
+        for (int i = 0; i < n; i++) {
             int num = cardNum.get(i);
             int col = cardColor.get(i);
 
@@ -626,37 +658,58 @@ public class GameActivity extends AppCompatActivity {
             colorCount.merge(col, 1, Integer::sum);
         }
 
-        // --- ストレート判定準備：数字をソート ---
+        // --- ソートしてストレート判定 ---
         ArrayList<Integer> nums = new ArrayList<>(cardNum);
         Collections.sort(nums);
 
         boolean isStraight = true;
-        for (int i = 0; i < nums.size() - 1; i++) {
-            if (nums.get(i) + 1 != nums.get(i + 1)) {
-                isStraight = false;
-                break;
+        if (n >= 3) { // ストレートは3枚以上から成立可能にする
+            for (int i = 0; i < n - 1; i++) {
+                if (nums.get(i) + 1 != nums.get(i + 1)) {
+                    isStraight = false;
+                    break;
+                }
             }
+        } else {
+            isStraight = false;
         }
 
-        // --- フラッシュ判定：5枚の色が同じならフラッシュ ---
-        boolean isFlush = colorCount.containsValue(5);
+        // --- フラッシュ判定 ---
+        boolean isFlush = (n >= 3) && colorCount.containsValue(n);
 
-        // --- 重複数カウントをソート ---
+        // --- 重複数カウント ---
         List<Integer> counts = new ArrayList<>(numCount.values());
         counts.sort(Collections.reverseOrder()); // 大きい順
 
         // --- 役判定 ---
+
+        // ● 枚数1
+        if (n == 1) return "ブタ";
+
+        // ● 枚数2
+        if (n == 2) {
+            if (counts.get(0) == 2) return "ワンペア";
+            return "ブタ";
+        }
+
+        // ● 枚数3
+        if (n == 3) {
+            if (counts.get(0) == 3) return "スリーカード";
+            if (counts.get(0) == 2) return "ワンペア";
+            return "ブタ";
+        }
+
+        // ● 枚数4 or 5 で共通の役
         if (isStraight && isFlush) return "ストレートフラッシュ";
         if (counts.get(0) == 4) return "フォーカード";
-        if (counts.get(0) == 3 && counts.get(1) == 2) return "フルハウス";
+        if (counts.size() == 2 && counts.get(0) == 3) return "フルハウス"; // 3+1 or 3+2
         if (isFlush) return "フラッシュ";
         if (isStraight) return "ストレート";
         if (counts.get(0) == 3) return "スリーカード";
-        if (counts.get(0) == 2 && counts.get(1) == 2) return "ツーペア";
+        if (counts.size() == 3 && counts.get(0) == 2 && counts.get(1) == 2) return "ツーペア";
         if (counts.get(0) == 2) return "ワンペア";
 
-        return "ハイカード";
+        return "ブタ";
     }
-
 
 }

@@ -154,7 +154,7 @@
         app:layout_constraintVertical_bias="0.752" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/yaku"
         android:layout_width="253dp"
         android:layout_height="74dp"
         android:background="@drawable/youhishi_2"
