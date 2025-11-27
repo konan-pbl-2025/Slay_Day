@@ -1,6 +1,5 @@
 package com.example.slay_day;
 
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -25,10 +24,10 @@ public class GameActivity extends AppCompatActivity {
 
     private ArrayList<CardData> currentHand = new ArrayList<>();
 
-    int PlayerHP = rand.nextInt(10)+1;
-    int EnemyHP = rand.nextInt(10)+1;
-    int EnemyATK = rand.nextInt(10)+1;
-    int[][] EnemyState = new int[5][5];//やけどで例えると一次はやけどかどうか、二次はやけどが何ターン続くか
+    private int PlayerHP = 20;
+    private int EnemyHP = 100;
+    private int EnemyATK = 2;
+    private int[][] EnemyState = new int[5][5];//やけどで例えると一次はやけどかどうか、二次はやけどが何ターン続くか
     boolean Dochange=true;
 
     @Override
@@ -38,6 +37,9 @@ public class GameActivity extends AppCompatActivity {
         cardType=randomType();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        TextView TEXEnemyHP = findViewById(R.id.ENEHP);
+        TEXEnemyHP.setText(String.valueOf(EnemyHP));
+
 
         //カードの色関連
         ImageView col1 = (ImageView)findViewById(R.id.imageView3);
@@ -111,12 +113,14 @@ public class GameActivity extends AppCompatActivity {
         cardTapViews[3] = (ImageView)findViewById(R.id.imageView10);
         cardTapViews[4] = (ImageView)findViewById(R.id.imageView9);
 
+        //ボタンの定義
         Button changeButton = (Button) findViewById(R.id.button2);
         changeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                currentHand.clear();
                 if(Dochange){
-                    Dochange=false;
+                    //Dochange=false;
                     //ここで決めなおし
                     cardColor=randomColor();
                     cardNum=randomNum();
@@ -167,6 +171,140 @@ public class GameActivity extends AppCompatActivity {
                         if(i==3) cardNum4.setText(String.valueOf(cardNum.get(i)));
                         if(i==4) cardNum5.setText(String.valueOf(cardNum.get(i)));
                     }
+
+                    // CardDataに格納するための情報決定(ダイアログ情報を更新するため)by廣瀬
+                    for (int i = 0; i < 5; i++){
+                        int colorIndex = cardColor.get(i);
+                        int cardNumValue = cardNum.get(i);
+                        int cardTypeValue = cardType.get(i); // カードの種類も利用可能
+
+                        String cardName;
+                        String cardEffect;
+                        int colorInt; // ダイアログの背景色用 (Color.REDなどのARGB値)
+
+                        switch (cardTypeValue) {
+                            case 1: // cardTypeが1の場合（例として）
+                                cardName = "バット (No." + cardNumValue + ")";
+                                cardEffect = "敵に" + cardNumValue * 3  + "ダメージを与える。";
+                                break;
+                            case 2: // cardTypeが2の場合
+                                cardName = "パンチ (No." + cardNumValue + ")";
+                                cardEffect = "敵に" + cardNumValue + "ダメージを与える。";
+                                break;
+                            case 3:
+                                cardName = "キック(No." + cardNumValue + ")";
+                                cardEffect = "敵に2ダメージを与える。";
+                                break;
+                            case 4:
+                                cardName = "天然水(No." + cardNumValue + ")";
+                                cardEffect = "自分の体力を2回復する。";
+                                break;
+                            case 5:
+                                cardName = "スポドリ(No." + cardNumValue + ")";
+                                cardEffect = "自分の体力を5回復する。";
+                                break;
+                            case 6:
+                                cardName = "ファイア(No." + cardNumValue + ")";
+                                cardEffect = "敵に5ダメージを与える。";
+                                break;
+                            case 7:
+                                cardName = "マッチ(No." + cardNumValue + ")";
+                                cardEffect = "敵を火傷状態にする。";
+                                break;
+                            case 8:
+                                cardName = "火の魔導書(No." + cardNumValue + ")";
+                                cardEffect = "火傷している敵の受けるダメージを2倍にする。";
+                                break;
+                            case 9:
+                                cardName = "ファイアパンチ(No." + cardNumValue + ")";
+                                cardEffect = "敵に2ダメージを与え、敵を火傷状態にする。";
+                                break;
+                            case 10:
+                                cardName = "皮の服(No." + cardNumValue + ")";
+                                cardEffect = "次に受けるダメージを‐1する。";
+                                break;
+                            case 11:
+                                cardName = "鉄の鎧(No." + cardNumValue + ")";
+                                cardEffect = "次に受けるダメージを‐5する。";
+                                break;
+                            case 12:
+                                cardName = "ヒーローマント(No." + cardNumValue + ")";
+                                cardEffect = "このターンに使うパンチ、キックのダメージが2倍になる。";
+                                break;
+                            case 13:
+                                cardName = "アクア(No." + cardNumValue + ")";
+                                cardEffect = "敵に2ダメージ与え、自分の体力を2回復する。";
+                                break;
+                            case 14:
+                                cardName = "アクアジェット(No." + cardNumValue + ")";
+                                cardEffect = "敵に2ダメージ与え、自分の体力を4回復する。";
+                                break;
+                            case 15:
+                                cardName = "水の魔導書(No." + cardNumValue + ")";
+                                cardEffect = "自分の体力を10回復する。";
+                                break;
+                            case 16:
+                                cardName = "津波(No." + cardNumValue + ")";
+                                cardEffect = "自分が回復した分のダメージを与える。";
+                                break;
+                            case 17:
+                                cardName = "エクゾディア(No." + cardNumValue + ")";
+                                cardEffect = "このカードが5枚揃うと無条件に勝利する。";
+                                break;
+                            case 18:
+                                cardName = "リーフ(No." + cardNumValue + ")";
+                                cardEffect = "敵に4ダメージを与える。";
+                                break;
+                            case 19:
+                                cardName = "肥料(No." + cardNumValue + ")";
+                                cardEffect = "自分の最大体力を＋2する。";
+                                break;
+                            case 20:
+                                cardName = "木の魔導書(No." + cardNumValue + ")";
+                                cardEffect = "自分の最大体力を＋4する。";
+                                break;
+                            case 21:
+                                cardName = "だいちのいかり(No." + cardNumValue + ")";
+                                cardEffect = "現在の自分の体力分のダメージを与える。";
+                                break;
+                            case 22:
+                                cardName = "炎の魔導書(No." + cardNumValue + ")";
+                                cardEffect = "火傷している敵の受けるダメージが4倍になる。";
+                                break;
+                            case 23:
+                                cardName = "滝の魔導書(No." + cardNumValue + ")";
+                                cardEffect = "自分が敵に与えたダメージの分自分を回復する。";
+                                break;
+                            case 24:
+                                cardName = "森の魔導書(No." + cardNumValue + ")";
+                                cardEffect = "自分の最大体力を＋10する。";
+                                break;
+
+                            default:
+                                cardName = "不明なカード";
+                                cardEffect = "効果なし";
+                                break;
+                        }
+
+                        // 🔴 色 (colorIndex) は、Color.XXXの値（ARGB値）に変換するだけに使う
+                        switch (colorIndex) {
+                            case 0: // 赤
+                                colorInt = Color.RED;
+                                break;
+                            case 1: // 青
+                                colorInt = Color.BLUE;
+                                break;
+                            case 2: // 緑
+                                colorInt = Color.GREEN;
+                                break;
+                            default:
+                                colorInt = Color.GRAY;
+                        }
+
+                        // 🔴 currentHandリストにCardDataオブジェクトを格納 (名前と効果はカード種類ベース、色はランダムベース)
+                        CardData newCard = new CardData(cardName, cardEffect, cardNumValue, colorInt);
+                        currentHand.add(newCard);
+                    }
                 }
             }
         });
@@ -188,11 +326,11 @@ public class GameActivity extends AppCompatActivity {
             // カードの種類（cardTypeValue）に基づいて名前と効果を決定
             switch (cardTypeValue) {
                 case 1: // cardTypeが1の場合（例として）
-                    cardName = "バット (No." + cardNumValue + ")";
+                    cardName = "バット(No." + cardNumValue + ")";
                     cardEffect = "敵に" + cardNumValue * 3  + "ダメージを与える。";
                     break;
                 case 2: // cardTypeが2の場合
-                    cardName = "パンチ (No." + cardNumValue + ")";
+                    cardName = "パンチ(No." + cardNumValue + ")";
                     cardEffect = "敵に" + cardNumValue + "ダメージを与える。";
                     break;
                 case 3:
@@ -320,7 +458,7 @@ public class GameActivity extends AppCompatActivity {
             });
         }
 
-    }
+    }//ここまでmain
 
     // 仮のカードデータ
     public class CardData {
@@ -336,6 +474,7 @@ public class GameActivity extends AppCompatActivity {
             this.colorResId = color;
         }
     }
+
     private void showCardDetail(CardData card) {
         // 1. カスタムスタイルを適用したBuilderの作成 (画面上部配置用)
         // R.style.TopHalfDialogStyle は前の回答で作成したスタイルです
@@ -378,7 +517,17 @@ public class GameActivity extends AppCompatActivity {
         useButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // カードを使用する処理をここに記述
+                // カード処理
+                if(card.name.contains("バット")) bat();
+                if(card.name.contains("パンチ")) punch();
+                if(card.name.contains("キック")) kick();
+                if(card.name.contains("天然水")) tennensui();
+                if(card.name.contains("スポドリ")) sportsDrink();
+                if(card.name.contains("ファイア")) fire();
+
+
+                TextView TEXEnemyHP = findViewById(R.id.ENEHP);
+                TEXEnemyHP.setText(String.valueOf(EnemyHP));
                 Toast.makeText(GameActivity.this, card.name + "を使います！", Toast.LENGTH_SHORT).show();
                 dialog.dismiss(); // ダイアログを閉じる
             }
@@ -388,7 +537,9 @@ public class GameActivity extends AppCompatActivity {
         WindowManager.LayoutParams wlp = dialog.getWindow().getAttributes();
         wlp.gravity = Gravity.TOP; // 画面の上部に配置
         dialog.getWindow().setAttributes(wlp);
-    }
+    }//ここまでshowcard
+
+
     private ArrayList<Integer> randomColor(){
         ArrayList<Integer> cardColor = new ArrayList<>();
         Random rand = new Random();
@@ -413,5 +564,59 @@ public class GameActivity extends AppCompatActivity {
         }
         return cardNum;
     }
+
+    private void bat(){
+        int batDamage=2;//バットの攻撃力
+        EnemyHP=EnemyHP-batDamage;
+    }
+
+    private void punch(){
+        int punchDamage=1;//攻撃力
+        EnemyHP=EnemyHP-punchDamage;
+    }
+
+    private void kick(){
+        int kickDamage=1;//攻撃力
+        EnemyHP=EnemyHP-kickDamage;
+    }
+
+    private void tennensui(){
+        int heal=2;//回復量
+        PlayerHP=PlayerHP+heal;
+    }
+
+    private void sportsDrink(){
+        int heal=4;//回復量
+        PlayerHP=PlayerHP+heal;
+    }
+
+    private void fire(){
+        int fireDamage=4;//回復量
+        EnemyHP=EnemyHP-fireDamage;
+    }
+
+    private void match(){
+        int yakedoFlag=1;
+        int yakedoTurn=1;
+
+        EnemyState[0][0]=yakedoFlag;
+        EnemyState[0][1]=yakedoTurn;
+
+    }
+
+    private void fireMagicBook(){
+        int EnemyHidame=2;//被ダメージ2倍
+        if(EnemyState[0][0]==1) {
+            EnemyHP = EnemyHP - EnemyHidame;
+        }
+    }
+
+    private void judge(){
+        int EnemyHidame=2;//被ダメージ2倍
+        if(EnemyState[0][0]==1) {
+            EnemyHP = EnemyHP - EnemyHidame;
+        }
+    }
+
 
 }
