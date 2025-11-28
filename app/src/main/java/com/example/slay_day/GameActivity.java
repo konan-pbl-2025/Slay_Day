@@ -192,7 +192,7 @@ public class GameActivity extends AppCompatActivity {
                 use5.setText("");
                 useCard.clear();
                 if(Dochange){
-                    //Dochange=false;
+                    Dochange=false;
                     //ここで決めなおし
                     cardColor=randomColor();
                     cardNum=randomNum();
@@ -1220,8 +1220,8 @@ public class GameActivity extends AppCompatActivity {
     private void firePunch(){
         EnemyState[0][0]=1;//やけど状態にする
         EnemyState[0][1]=2;//何ターン続くか
-        EnemyHP-=EnemyHP*EnemyDefDown;
-        totalDamage+=EnemyHP*EnemyDefDown;
+        EnemyHP-=2*EnemyDefDown;
+        totalDamage+=2*EnemyDefDown;
     }
 
     private void leather(){
