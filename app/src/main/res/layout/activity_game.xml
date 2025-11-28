@@ -50,6 +50,20 @@
         app:srcCompat="@drawable/card" />
 
     <ImageView
+        android:id="@+id/yakedo"
+        android:layout_width="80dp"
+        android:layout_height="117dp"
+        android:rotation="0"
+        android:translationY="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.682"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.661"
+        app:srcCompat="?attr/selectableItemBackground" />
+
+    <ImageView
         android:id="@+id/imageView12"
         android:layout_width="105dp"
         android:layout_height="153dp"
