@@ -539,8 +539,6 @@ public class GameActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
                 if(PlayerHP<=0){
-                    Intent intent = new Intent(GameActivity.this, GameOverActivity.class);
-                    startActivity(intent);
                         Intent intent = new Intent(GameActivity.this, GameClearActivity.class);
                         startActivity(intent);
                 }else if(PlayerHP<=0){
