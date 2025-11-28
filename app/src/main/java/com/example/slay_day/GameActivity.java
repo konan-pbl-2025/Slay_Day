@@ -194,7 +194,7 @@ public class GameActivity extends AppCompatActivity {
                 use5.setText("");
                 useCard.clear();
                 if(Dochange){
-                    //Dochange=false;
+                    Dochange=false;
                     //ここで決めなおし
                     cardColor=randomColor();
                     cardNum=randomNum();
@@ -443,6 +443,26 @@ public class GameActivity extends AppCompatActivity {
                 }
                 String ans=judgeHand(useCardNum,useCardColor);
                 yaku.setText(ans);
+                if(useSize==5){
+                    int eguzo=0;//えぐぞでぃあが何枚あるか
+                    for(int i=0;i<0;i++){
+                        if(useCard.get(i)==17||useCard.get(i)==18||useCard.get(i)==19||useCard.get(i)==20||useCard.get(i)==21){
+                            eguzo++;
+                        }
+                        if(eguzo==5){
+                            yaku.setText("エグゾディア");
+                            String eguzoMessage =
+                                    "エグゾディアが完成しました！！！！"; // \nで改行
+                            Toast.makeText(GameActivity.this, eguzoMessage, Toast.LENGTH_LONG).show();
+                            int time=0;
+                            while(time<600){
+                                time++;
+                            }
+                            EnemyHP=0;
+                            return;
+                        }
+                    }
+                }
                 if(!ans.equals("ブタ")){
                     if(ans.equals("ツーペア")){
                         EnemyDefDown=0.5;
@@ -1213,8 +1233,8 @@ public class GameActivity extends AppCompatActivity {
     private void firePunch(){
         EnemyState[0][0]=1;//やけど状態にする
         EnemyState[0][1]=2;//何ターン続くか
-        EnemyHP-=EnemyHP*EnemyDefDown;
-        totalDamage+=EnemyHP*EnemyDefDown;
+        EnemyHP-=2*EnemyDefDown;
+        totalDamage+=2*EnemyDefDown;
     }
 
     private void leather(){
