@@ -57,6 +57,7 @@ public class GameActivity extends AppCompatActivity {
         TextView TEXEnemyHP = findViewById(R.id.ENEHP);
         TextView yaku = (TextView)findViewById(R.id.yaku);
         TEXEnemyHP.setText(String.valueOf(EnemyHP));
+        ImageView yakedo = (ImageView)findViewById(R.id.yakedo);
 
         TextView use1 = (TextView)findViewById(R.id.use1);
         TextView use2 = (TextView)findViewById(R.id.use2);
@@ -825,6 +826,17 @@ public class GameActivity extends AppCompatActivity {
                 // ... (他のリセットが必要なら追加) ...
                 useCard.clear();
                 useCardSet.clear();
+
+                if(EnemyState[0][0]>0){
+                    EnemyState[0][1]=EnemyState[0][1]-1;
+                    if(EnemyState[1][1]==0){
+                        yakedo.setImageResource(R.drawable.mu);
+                    }
+                }
+
+                if(EnemyState[0][1]>0){
+                    yakedo.setImageResource(R.drawable.yakedo);
+                }
             }
         });
 
@@ -1184,7 +1196,7 @@ public class GameActivity extends AppCompatActivity {
 
     private void match(){
         int yakedoFlag=1;
-        int yakedoTurn=1;
+        int yakedoTurn=2;
 
         EnemyState[0][0]=yakedoFlag;
         EnemyState[0][1]=yakedoTurn;
