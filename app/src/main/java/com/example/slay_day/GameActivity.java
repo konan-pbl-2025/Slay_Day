@@ -1,5 +1,6 @@
 package com.example.slay_day;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -531,6 +532,14 @@ public class GameActivity extends AppCompatActivity {
                 String resultMessage =
                         "カード使用結果: ダメージ " + totalDamage + " / 回復 " + totalHeal +
                                 "\n敵の攻撃: " + damageFromEnemy + " ダメージ受けた！"; // \nで改行
+                if(EnemyHP<=0){
+                        Intent intent = new Intent(GameActivity.this, GameClearActivity.class);
+                        startActivity(intent);
+                }
+                if(PlayerHP<=0){
+                    Intent intent = new Intent(GameActivity.this, GameOverActivity.class);
+                    startActivity(intent);
+                }
                 Toast.makeText(GameActivity.this, resultMessage, Toast.LENGTH_LONG).show();
 
                 //選択状態解除
