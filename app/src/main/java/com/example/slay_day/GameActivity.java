@@ -183,16 +183,16 @@ public class GameActivity extends AppCompatActivity {
         changeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                currentHand.clear();
-                useSize=0;
-                use1.setText("");
-                use2.setText("");
-                use3.setText("");
-                use4.setText("");
-                use5.setText("");
-                useCard.clear();
                 if(Dochange){
-                    //Dochange=false;
+                    currentHand.clear();
+                    useSize=0;
+                    use1.setText("");
+                    use2.setText("");
+                    use3.setText("");
+                    use4.setText("");
+                    use5.setText("");
+                    useCard.clear();
+                    Dochange=false;
                     //ここで決めなおし
                     cardColor=randomColor();
                     cardNum=randomNum();
@@ -822,6 +822,7 @@ public class GameActivity extends AppCompatActivity {
                 PlayerDef = 0;
                 heroUP = 1;
                 EnemyDefDown = 1;
+                Dochange=true;
                 // ... (他のリセットが必要なら追加) ...
                 useCard.clear();
                 useCardSet.clear();
