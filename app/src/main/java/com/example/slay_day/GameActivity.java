@@ -1,5 +1,6 @@
 package com.example.slay_day;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -440,6 +441,25 @@ public class GameActivity extends AppCompatActivity {
                 }
                 String ans=judgeHand(useCardNum,useCardColor);
                 yaku.setText(ans);
+                if(useSize==5){
+                    int eguzo=0;//えぐぞでぃあが何枚あるか
+                    for(int i=0;i<0;i++){
+                        if(useCard.get(i)==17||useCard.get(i)==18||useCard.get(i)==19||useCard.get(i)==20||useCard.get(i)==21){
+                            eguzo++;
+                        }
+                        if(eguzo==5){
+                            yaku.setText("エグゾディア");
+                            String eguzoMessage =
+                                    "エグゾディアが完成しました！！！！"; // \nで改行
+                            Toast.makeText(GameActivity.this, eguzoMessage, Toast.LENGTH_LONG).show();
+                            int time=0;
+                            while(time<600){
+                                time++;
+                            }
+                            setContentView(R.layout.activity_clear);
+                        }
+                    }
+                }
                 if(!ans.equals("ブタ")){
                     if(ans.equals("ツーペア")){
                         EnemyDefDown=0.5;
