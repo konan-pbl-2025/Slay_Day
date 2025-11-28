@@ -125,6 +125,10 @@
 
 
 
+
+
+
+
     ]]>
 
     <Button
@@ -136,10 +140,10 @@
         app:icon="@drawable/irekae_01"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.947"
+        app:layout_constraintHorizontal_bias="0.942"
         app:layout_constraintStart_toStartOf="@+id/imageView16"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.762" />
+        app:layout_constraintVertical_bias="0.765" />
 
     <Button
         android:id="@+id/button3"
@@ -149,15 +153,15 @@
         app:icon="@drawable/play_sord"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.473"
+        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.752" />
+        app:layout_constraintVertical_bias="0.756" />
 
     <Button
         android:id="@+id/reset"
-        android:layout_width="128dp"
-        android:layout_height="47dp"
+        android:layout_width="144dp"
+        android:layout_height="54dp"
         android:text="リセット"
         app:icon="@android:drawable/ic_menu_close_clear_cancel"
         app:layout_constraintBottom_toBottomOf="parent"
