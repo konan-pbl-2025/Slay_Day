@@ -45,6 +45,7 @@ public class GameActivity extends AppCompatActivity {
     private double totalDamage=0;//どれだけ攻撃したか
 
     private int useSize=0;
+    private int turnCount = 1; // 最初のターンは1から開始
     boolean Dochange=true;
 
     @Override
@@ -57,6 +58,7 @@ public class GameActivity extends AppCompatActivity {
         TextView TEXEnemyHP = findViewById(R.id.ENEHP);
         TextView yaku = (TextView)findViewById(R.id.yaku);
         TEXEnemyHP.setText(String.valueOf(EnemyHP));
+        ImageView yakedo = (ImageView)findViewById(R.id.yakedo);
 
         TextView use1 = (TextView)findViewById(R.id.use1);
         TextView use2 = (TextView)findViewById(R.id.use2);
@@ -70,6 +72,7 @@ public class GameActivity extends AppCompatActivity {
         use3.setText("");
         use4.setText("");
         use5.setText("");
+        updatePlayerHPDisplay();
 
 
         //カードの色関連
@@ -78,6 +81,8 @@ public class GameActivity extends AppCompatActivity {
         ImageView col3 = (ImageView)findViewById(R.id.imageView6);
         ImageView col4 = (ImageView)findViewById(R.id.imageView13);
         ImageView col5 = (ImageView)findViewById(R.id.imageView14);
+        TextView TEXTurnCount = findViewById(R.id.textView);
+        TEXTurnCount.setText("ターン: " + String.valueOf(turnCount));
         for(int i=0;i<5;i++){
             if(cardColor.get(i)==0&&i==0) col1.setImageResource(R.drawable.red_element);
             if(cardColor.get(i)==1&&i==0) col1.setImageResource(R.drawable.blue_element);
@@ -441,6 +446,26 @@ public class GameActivity extends AppCompatActivity {
                 }
                 String ans=judgeHand(useCardNum,useCardColor);
                 yaku.setText(ans);
+                if(useSize==5){
+                    int eguzo=0;//えぐぞでぃあが何枚あるか
+                    for(int i=0;i<0;i++){
+                        if(useCard.get(i)==17||useCard.get(i)==18||useCard.get(i)==19||useCard.get(i)==20||useCard.get(i)==21){
+                            eguzo++;
+                        }
+                        if(eguzo==5){
+                            yaku.setText("エグゾディア");
+                            String eguzoMessage =
+                                    "エグゾディアが完成しました！！！！"; // \nで改行
+                            Toast.makeText(GameActivity.this, eguzoMessage, Toast.LENGTH_LONG).show();
+                            int time=0;
+                            while(time<600){
+                                time++;
+                            }
+                            EnemyHP=0;
+                            return;
+                        }
+                    }
+                }
                 if(!ans.equals("ブタ")){
                     if(ans.equals("ツーペア")){
                         EnemyDefDown=0.5;
@@ -529,18 +554,26 @@ public class GameActivity extends AppCompatActivity {
                 TEXEnemyHP.setText(String.valueOf(EnemyHP));
 
                 int damageFromEnemy = enemyAttack();
+                updatePlayerHPDisplay();
                 String resultMessage =
                         "カード使用結果: ダメージ " + totalDamage + " / 回復 " + totalHeal +
                                 "\n敵の攻撃: " + damageFromEnemy + " ダメージ受けた！"; // \nで改行
                 if(EnemyHP<=0){
                         Intent intent = new Intent(GameActivity.this, GameClearActivity.class);
                         startActivity(intent);
-                }
-                if(PlayerHP<=0){
-                    Intent intent = new Intent(GameActivity.this, GameOverActivity.class);
-                    startActivity(intent);
+                }else if(PlayerHP<=0){
+                        Intent intent = new Intent(GameActivity.this, GameOverActivity.class);
+                        startActivity(intent);
                 }
                 Toast.makeText(GameActivity.this, resultMessage, Toast.LENGTH_LONG).show();
+                // 🔴 【追加】ターン数をインクリメントし、画面を更新
+                turnCount++;
+                TextView TEXTurnCount = findViewById(R.id.textView);
+                TEXTurnCount.setText("ターン: " + String.valueOf(turnCount));
+
+                // 🔴 【追加】ターン開始時のカウンター/バフをリセット
+                totalDamage = 0;
+                totalHeal = 0;
 
                 //選択状態解除
                 useSize=0;
@@ -826,6 +859,17 @@ public class GameActivity extends AppCompatActivity {
                 // ... (他のリセットが必要なら追加) ...
                 useCard.clear();
                 useCardSet.clear();
+
+                if(EnemyState[0][0]>0){
+                    EnemyState[0][1]=EnemyState[0][1]-1;
+                    if(EnemyState[1][1]==0){
+                        yakedo.setImageResource(R.drawable.mu);
+                    }
+                }
+
+                if(EnemyState[0][1]>0){
+                    yakedo.setImageResource(R.drawable.yakedo);
+                }
             }
         });
 
@@ -1185,7 +1229,7 @@ public class GameActivity extends AppCompatActivity {
 
     private void match(){
         int yakedoFlag=1;
-        int yakedoTurn=1;
+        int yakedoTurn=2;
 
         EnemyState[0][0]=yakedoFlag;
         EnemyState[0][1]=yakedoTurn;
@@ -1201,8 +1245,8 @@ public class GameActivity extends AppCompatActivity {
     private void firePunch(){
         EnemyState[0][0]=1;//やけど状態にする
         EnemyState[0][1]=2;//何ターン続くか
-        EnemyHP-=EnemyHP*EnemyDefDown;
-        totalDamage+=EnemyHP*EnemyDefDown;
+        EnemyHP-=2*EnemyDefDown;
+        totalDamage+=2*EnemyDefDown;
     }
 
     private void leather(){
@@ -1274,6 +1318,15 @@ public class GameActivity extends AppCompatActivity {
     private void forestMagicBook(){
         PlayerMaxHP+=10;
 
+    }
+
+    private void updatePlayerHPDisplay() {
+        TextView TEXPlayerHP = findViewById(R.id.pleyerHP);
+
+        // 🔴 画面表示を更新 (String.formatを使用して小数点以下を切り捨て)
+        // この形式が、My HP: xx/yy の表示に最適です。
+        String hpText = String.format("My HP: %.0f/%.0f", PlayerHP, PlayerMaxHP);
+        TEXPlayerHP.setText(hpText);
     }
 
 
