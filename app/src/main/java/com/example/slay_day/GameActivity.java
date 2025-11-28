@@ -45,6 +45,7 @@ public class GameActivity extends AppCompatActivity {
     private double totalDamage=0;//どれだけ攻撃したか
 
     private int useSize=0;
+    private int turnCount = 1; // 最初のターンは1から開始
     boolean Dochange=true;
 
     @Override
@@ -79,6 +80,8 @@ public class GameActivity extends AppCompatActivity {
         ImageView col3 = (ImageView)findViewById(R.id.imageView6);
         ImageView col4 = (ImageView)findViewById(R.id.imageView13);
         ImageView col5 = (ImageView)findViewById(R.id.imageView14);
+        TextView TEXTurnCount = findViewById(R.id.textView);
+        TEXTurnCount.setText("ターン: " + String.valueOf(turnCount));
         for(int i=0;i<5;i++){
             if(cardColor.get(i)==0&&i==0) col1.setImageResource(R.drawable.red_element);
             if(cardColor.get(i)==1&&i==0) col1.setImageResource(R.drawable.blue_element);
@@ -542,6 +545,14 @@ public class GameActivity extends AppCompatActivity {
                         startActivity(intent);
                 }
                 Toast.makeText(GameActivity.this, resultMessage, Toast.LENGTH_LONG).show();
+                // 🔴 【追加】ターン数をインクリメントし、画面を更新
+                turnCount++;
+                TextView TEXTurnCount = findViewById(R.id.textView);
+                TEXTurnCount.setText("ターン: " + String.valueOf(turnCount));
+
+                // 🔴 【追加】ターン開始時のカウンター/バフをリセット
+                totalDamage = 0;
+                totalHeal = 0;
 
                 //選択状態解除
                 useSize=0;
