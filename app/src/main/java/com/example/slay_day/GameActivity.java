@@ -40,7 +40,7 @@ public class GameActivity extends AppCompatActivity {
 
 
     private int[][] EnemyState = new int[5][5];//やけどで例えると一次はやけどかどうか、二次はやけどが何ターン続くか
-    private  double totalHeal=0;//どれだけ回復したか
+    private double totalHeal=0;//どれだけ回復したか
     private double totalDamage=0;//どれだけ攻撃したか
     boolean Dochange=true;
 
@@ -391,6 +391,258 @@ public class GameActivity extends AppCompatActivity {
                 }
                 TextView TEXEnemyHP = findViewById(R.id.ENEHP);
                 TEXEnemyHP.setText(String.valueOf(EnemyHP));
+
+                int damageFromEnemy = enemyAttack();
+                String resultMessage =
+                        "カード使用結果: ダメージ " + totalDamage + " / 回復 " + totalHeal +
+                                "\n敵の攻撃: " + damageFromEnemy + " ダメージ受けた！"; // \nで改行
+                Toast.makeText(GameActivity.this, resultMessage, Toast.LENGTH_LONG).show();
+                // 1. 古いリストをクリア
+                currentHand.clear();
+                cardColor.clear();
+                cardNum.clear();
+                cardType.clear();
+
+                // 2. 新しいカードを生成
+                cardColor = randomColor();
+                cardNum = randomNum();
+                cardType = randomType();
+
+                // 3. UI要素を再度取得 (onCreateのコードを複製)
+                // 🔴 注意: このブロックをonCreateのコードに合わせて完全に追加してください
+                String [] ID = new String[5];
+                String cardName;
+                String cardEffect;
+                int colorInt;
+
+                // --- 3-A: カードの色関連の再設定 ---
+                ImageView col1 = (ImageView)findViewById(R.id.imageView3);
+                ImageView col2 = (ImageView)findViewById(R.id.imageView2);
+                ImageView col3 = (ImageView)findViewById(R.id.imageView6);
+                ImageView col4 = (ImageView)findViewById(R.id.imageView13);
+                ImageView col5 = (ImageView)findViewById(R.id.imageView14);
+
+                for(int i=0;i<5;i++){
+                    // 既存の長いif文のロジックをここに複製
+                    if(cardColor.get(i)==0&&i==0) col1.setImageResource(R.drawable.red_element);
+                    if(cardColor.get(i)==1&&i==0) col1.setImageResource(R.drawable.blue_element);
+                    if(cardColor.get(i)==2&&i==0) col1.setImageResource(R.drawable.green_element);
+
+                    if(cardColor.get(i)==0&&i==1) col2.setImageResource(R.drawable.red_element);
+                    if(cardColor.get(i)==1&&i==1) col2.setImageResource(R.drawable.blue_element);
+                    if(cardColor.get(i)==2&&i==1) col2.setImageResource(R.drawable.green_element);
+
+                    if(cardColor.get(i)==0&&i==2) col3.setImageResource(R.drawable.red_element);
+                    if(cardColor.get(i)==1&&i==2) col3.setImageResource(R.drawable.blue_element);
+                    if(cardColor.get(i)==2&&i==2) col3.setImageResource(R.drawable.green_element);
+
+                    if(cardColor.get(i)==0&&i==3) col4.setImageResource(R.drawable.red_element);
+                    if(cardColor.get(i)==1&&i==3) col4.setImageResource(R.drawable.blue_element);
+                    if(cardColor.get(i)==2&&i==3) col4.setImageResource(R.drawable.green_element);
+
+                    if(cardColor.get(i)==0&&i==4) col5.setImageResource(R.drawable.red_element);
+                    if(cardColor.get(i)==1&&i==4) col5.setImageResource(R.drawable.blue_element);
+                    if(cardColor.get(i)==2&&i==4) col5.setImageResource(R.drawable.green_element);
+                }
+
+                // --- 3-B: カードの種類（画像）の再設定 ---
+                ImageView card1 = (ImageView)findViewById(R.id.imageView11);
+                ImageView card2 = (ImageView)findViewById(R.id.imageView12);
+                ImageView card3 = (ImageView)findViewById(R.id.imageView8);
+                ImageView card4 = (ImageView)findViewById(R.id.imageView10);
+                ImageView card5 = (ImageView)findViewById(R.id.imageView9);
+
+                String [] id = new String[5];
+                for(int i=0;i<5;i++){
+                    char letter =(char)('a'+(cardType.get(i)-1));
+                    ID[i]=Character.toString(letter);
+                }
+                for(int i=0;i<5;i++){
+                    int resId = getResources().getIdentifier(ID[i], "drawable", getPackageName());
+                    // 既存の長いif文のロジックをここに複製
+                    if(i==0) card1.setImageResource(resId);
+                    if(i==1) card2.setImageResource(resId);
+                    if(i==2) card3.setImageResource(resId);
+                    if(i==3) card4.setImageResource(resId);
+                    if(i==4) card5.setImageResource(resId);
+                }
+
+                // --- 3-C: カードの数字の再設定 ---
+                TextView cardNum1 = (TextView)findViewById(R.id.textView4);
+                TextView cardNum2 = (TextView)findViewById(R.id.textView5);
+                TextView cardNum3 = (TextView)findViewById(R.id.textView8);
+                TextView cardNum4 = (TextView)findViewById(R.id.textView6);
+                TextView cardNum5 = (TextView)findViewById(R.id.textView7);
+
+                for(int i=0;i<5;i++){
+                    // 既存の長いif文のロジックをここに複製
+                    if(i==0) cardNum1.setText(String.valueOf(cardNum.get(i)));
+                    if(i==1) cardNum2.setText(String.valueOf(cardNum.get(i)));
+                    if(i==2) cardNum3.setText(String.valueOf(cardNum.get(i)));
+                    if(i==3) cardNum4.setText(String.valueOf(cardNum.get(i)));
+                    if(i==4) cardNum5.setText(String.valueOf(cardNum.get(i)));
+
+                }
+
+                // 4. currentHandリストの再構築（onCreateの最後のforループから）
+                ImageView[] cardTapViews = new ImageView[5]; // リスナー再設定用
+                // ... (cardTapViews の findViewById 取得) ...
+                cardTapViews[0] = (ImageView)findViewById(R.id.imageView11);
+                cardTapViews[1] = (ImageView)findViewById(R.id.imageView12);
+                cardTapViews[2] = (ImageView)findViewById(R.id.imageView8);
+                cardTapViews[3] = (ImageView)findViewById(R.id.imageView10);
+                cardTapViews[4] = (ImageView)findViewById(R.id.imageView9);
+
+                for (int i = 0; i < 5; i++){
+                    // 既存のcurrentHand再構築ロジックをすべて複製
+                    // ... (colorIndex, cardNumValue, cardTypeValue の取得) ...
+                    // ... (switch文による cardName, cardEffect, colorInt の決定) ...
+                    int colorIndex = cardColor.get(i);
+                    int cardNumValue = cardNum.get(i);
+                    int cardTypeValue = cardType.get(i);
+                    colorInt = Color.GRAY;
+                    switch (cardTypeValue) {
+                        case 1: // cardTypeが1の場合（例として）
+                            cardName = "バット (No." + cardNumValue + ")";
+                            cardEffect = "敵に" + cardNumValue * 3  + "ダメージを与える。";
+                            break;
+                        case 2: // cardTypeが2の場合
+                            cardName = "パンチ (No." + cardNumValue + ")";
+                            cardEffect = "敵に" + cardNumValue + "ダメージを与える。";
+                            break;
+                        case 3:
+                            cardName = "キック(No." + cardNumValue + ")";
+                            cardEffect = "敵に2ダメージを与える。";
+                            break;
+                        case 4:
+                            cardName = "天然水(No." + cardNumValue + ")";
+                            cardEffect = "自分の体力を2回復する。";
+                            break;
+                        case 5:
+                            cardName = "スポドリ(No." + cardNumValue + ")";
+                            cardEffect = "自分の体力を5回復する。";
+                            break;
+                        case 6:
+                            cardName = "ファイア(No." + cardNumValue + ")";
+                            cardEffect = "敵に5ダメージを与える。";
+                            break;
+                        case 7:
+                            cardName = "マッチ(No." + cardNumValue + ")";
+                            cardEffect = "敵を火傷状態にする。";
+                            break;
+                        case 8:
+                            cardName = "火の魔導書(No." + cardNumValue + ")";
+                            cardEffect = "火傷している敵の受けるダメージを2倍にする。";
+                            break;
+                        case 9:
+                            cardName = "ファイアパンチ(No." + cardNumValue + ")";
+                            cardEffect = "敵に2ダメージを与え、敵を火傷状態にする。";
+                            break;
+                        case 10:
+                            cardName = "皮の服(No." + cardNumValue + ")";
+                            cardEffect = "次に受けるダメージを‐1する。";
+                            break;
+                        case 11:
+                            cardName = "鉄の鎧(No." + cardNumValue + ")";
+                            cardEffect = "次に受けるダメージを‐5する。";
+                            break;
+                        case 12:
+                            cardName = "ヒーローマント(No." + cardNumValue + ")";
+                            cardEffect = "このターンに使うパンチ、キックのダメージが2倍になる。";
+                            break;
+                        case 13:
+                            cardName = "アクア(No." + cardNumValue + ")";
+                            cardEffect = "敵に2ダメージ与え、自分の体力を2回復する。";
+                            break;
+                        case 14:
+                            cardName = "アクアジェット(No." + cardNumValue + ")";
+                            cardEffect = "敵に2ダメージ与え、自分の体力を4回復する。";
+                            break;
+                        case 15:
+                            cardName = "水の魔導書(No." + cardNumValue + ")";
+                            cardEffect = "自分の体力を10回復する。";
+                            break;
+                        case 16:
+                            cardName = "津波(No." + cardNumValue + ")";
+                            cardEffect = "自分が回復した分のダメージを与える。";
+                            break;
+                        case 17:
+                            cardName = "エクゾディア(No." + cardNumValue + ")";
+                            cardEffect = "このカードが5枚揃うと無条件に勝利する。";
+                            break;
+                        case 18:
+                            cardName = "リーフ(No." + cardNumValue + ")";
+                            cardEffect = "敵に4ダメージを与える。";
+                            break;
+                        case 19:
+                            cardName = "肥料(No." + cardNumValue + ")";
+                            cardEffect = "自分の最大体力を＋2する。";
+                            break;
+                        case 20:
+                            cardName = "木の魔導書(No." + cardNumValue + ")";
+                            cardEffect = "自分の最大体力を＋4する。";
+                            break;
+                        case 21:
+                            cardName = "だいちのいかり(No." + cardNumValue + ")";
+                            cardEffect = "現在の自分の体力分のダメージを与える。";
+                            break;
+                        case 22:
+                            cardName = "炎の魔導書(No." + cardNumValue + ")";
+                            cardEffect = "火傷している敵の受けるダメージが4倍になる。";
+                            break;
+                        case 23:
+                            cardName = "滝の魔導書(No." + cardNumValue + ")";
+                            cardEffect = "自分が敵に与えたダメージの分自分を回復する。";
+                            break;
+                        case 24:
+                            cardName = "森の魔導書(No." + cardNumValue + ")";
+                            cardEffect = "自分の最大体力を＋10する。";
+                            break;
+
+                        default:
+                            cardName = "不明なカード";
+                            cardEffect = "効果なし";
+                            break;
+                    }
+
+                    switch (colorIndex) {
+                        case 0: // 赤
+                            colorInt = Color.RED;
+                            break;
+                        case 1: // 青
+                            colorInt = Color.BLUE;
+                            break;
+                        case 2: // 緑
+                            colorInt = Color.GREEN;
+                            break;
+                        default:
+                            colorInt = Color.GRAY;
+                            break; // breakを追加
+                    }
+
+                    CardData newCard = new CardData(cardName, cardEffect, cardNumValue, colorInt);
+                    currentHand.add(newCard);
+
+                    // 🔴 クリックリスナーも再設定 (これで新しいカード情報でダイアログが開く)
+                    final int cardIndex = i;
+                    cardTapViews[i].setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            CardData selectedCard = currentHand.get(cardIndex);
+                            showCardDetail(selectedCard,cardIndex);
+                        }
+                    });
+                }
+
+                // ----------------------------------------------------
+
+                // 5. ターン固有のバフ/デバフをリセット
+                PlayerDef = 0;
+                heroUP = 1;
+                EnemyDefDown = 1;
+                // ... (他のリセットが必要なら追加) ...
+                useCard.clear();
+                useCardSet.clear();
             }
         });
 
@@ -618,6 +870,20 @@ public class GameActivity extends AppCompatActivity {
         wlp.gravity = Gravity.TOP; // 画面の上部に配置
         dialog.getWindow().setAttributes(wlp);
     }//ここまでshowcard
+
+    private int enemyAttack() {
+        int damageTaken = (int)EnemyATK; // 敵の攻撃力
+
+        // 敵の状態や防御カードによる軽減処理（必要に応じて追加）
+        // if (PlayerHasDefense) damageTaken -= 1; など
+
+        PlayerHP -= damageTaken;
+
+        // 🔴トースト表示を削除
+        // Toast.makeText(GameActivity.this, "敵から " + damageTaken + " ダメージ受けた！", Toast.LENGTH_LONG).show();
+
+        return damageTaken; // 🔴受けたダメージを返す
+    }
 
 
     private ArrayList<Integer> randomColor(){
