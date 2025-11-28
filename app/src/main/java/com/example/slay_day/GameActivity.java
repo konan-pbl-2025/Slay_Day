@@ -57,6 +57,8 @@ public class GameActivity extends AppCompatActivity {
         TextView yaku = (TextView)findViewById(R.id.yaku);
         TEXEnemyHP.setText(String.valueOf(EnemyHP));
 
+
+
         TextView use1 = (TextView)findViewById(R.id.use1);
         TextView use2 = (TextView)findViewById(R.id.use2);
         TextView use3 = (TextView)findViewById(R.id.use3);
@@ -489,7 +491,40 @@ public class GameActivity extends AppCompatActivity {
 
                     }
                 }else{
-                    bat();
+                    if(useSize>1) {
+                        String ButaMessage =
+                                "役がブタの場合はカードは一つしか使えません"; // \nで改行
+                        Toast.makeText(GameActivity.this, ButaMessage, Toast.LENGTH_LONG).show();
+                        return;
+                    }else{
+                        for(int i:useCard){
+                            if(cardType.get(i)==1) bat();
+                            if(cardType.get(i)==2) punch();
+                            if(cardType.get(i)==3) kick();
+                            if(cardType.get(i)==4) tennensui();
+                            if(cardType.get(i)==5) sportsDrink();
+                            if(cardType.get(i)==6) fire();
+                            if(cardType.get(i)==7) match();
+                            if(cardType.get(i)==8) fireMagicBook();
+                            if(cardType.get(i)==9) firePunch();
+                            if(cardType.get(i)==10) leather();
+                            if(cardType.get(i)==11) iron();
+                            if(cardType.get(i)==12) heroMant();
+                            if(cardType.get(i)==13) aqour();
+                            if(cardType.get(i)==14) aqourJet();
+                            if(cardType.get(i)==15) waterMagicBook();
+                            if(cardType.get(i)==16) tunami();
+                            if(cardType.get(i)==17) bat();//考え中
+                            if(cardType.get(i)==18) leaf();
+                            if(cardType.get(i)==19) hiryou();
+                            if(cardType.get(i)==20) treeMagicBook();
+                            if(cardType.get(i)==21) angerOfEarth();
+                            if(cardType.get(i)==22) flameMagikBook();
+                            if(cardType.get(i)==23) takiMagicBook();
+                            if(cardType.get(i)==24) forestMagicBook();
+
+                        }
+                    }
                 }
                 TextView TEXEnemyHP = findViewById(R.id.ENEHP);
                 TEXEnemyHP.setText(String.valueOf(EnemyHP));
@@ -782,6 +817,8 @@ public class GameActivity extends AppCompatActivity {
                 // ... (他のリセットが必要なら追加) ...
                 useCard.clear();
                 useCardSet.clear();
+
+
             }
         });
 

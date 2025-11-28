@@ -437,4 +437,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.129" />
 
+    <View
+        android:id="@+id/view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:id="@+id/redDisp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00F60000"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="10dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
