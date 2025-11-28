@@ -541,6 +541,11 @@ public class GameActivity extends AppCompatActivity {
                 if(PlayerHP<=0){
                     Intent intent = new Intent(GameActivity.this, GameOverActivity.class);
                     startActivity(intent);
+                        Intent intent = new Intent(GameActivity.this, GameClearActivity.class);
+                        startActivity(intent);
+                }else if(PlayerHP<=0){
+                        Intent intent = new Intent(GameActivity.this, GameOverActivity.class);
+                        startActivity(intent);
                 }
                 Toast.makeText(GameActivity.this, resultMessage, Toast.LENGTH_LONG).show();
 
