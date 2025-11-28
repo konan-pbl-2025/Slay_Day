@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ECE8E8"
+    android:background="#FFFFFF"
     tools:context=".GameActivity">
 
     <ImageView
@@ -187,11 +187,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.298" />
-        app:layout_constraintHorizontal_bias="0.847"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView16"
-        app:layout_constraintVertical_bias="0.665"
-        app:textLocale="500dp" />
+    app:layout_constraintHorizontal_bias="0.847"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="@+id/imageView16"
+    app:layout_constraintVertical_bias="0.665"
+    app:textLocale="500dp" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -422,19 +422,16 @@
         app:layout_constraintVertical_bias="0.343" />
 
     <TextView
-        android:id="@+id/textView8"
-        android:layout_width="108dp"
-        android:layout_height="65dp"
-        android:gravity="center"
-        android:scaleX="1.5"
-        android:scaleY="1.5"
-        android:text="My HP："
-        android:textColor="#CA1609"
+        android:id="@+id/pleyerHP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="My HP:"
+        android:textColor="#FF0101"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.567"
+        app:layout_constraintHorizontal_bias="0.418"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.129" />
+        app:layout_constraintVertical_bias="0.202" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
