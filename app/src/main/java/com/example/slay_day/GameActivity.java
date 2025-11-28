@@ -70,6 +70,7 @@ public class GameActivity extends AppCompatActivity {
         use3.setText("");
         use4.setText("");
         use5.setText("");
+        updatePlayerHPDisplay();
 
 
         //カードの色関連
@@ -529,12 +530,13 @@ public class GameActivity extends AppCompatActivity {
                 TEXEnemyHP.setText(String.valueOf(EnemyHP));
 
                 int damageFromEnemy = enemyAttack();
+                updatePlayerHPDisplay();
                 String resultMessage =
                         "カード使用結果: ダメージ " + totalDamage + " / 回復 " + totalHeal +
                                 "\n敵の攻撃: " + damageFromEnemy + " ダメージ受けた！"; // \nで改行
                 if(EnemyHP<=0){
-                        Intent intent = new Intent(GameActivity.this, GameClearActivity.class);
-                        startActivity(intent);
+                    Intent intent = new Intent(GameActivity.this, GameClearActivity.class);
+                    startActivity(intent);
                 }
                 if(PlayerHP<=0){
                     Intent intent = new Intent(GameActivity.this, GameOverActivity.class);
@@ -1273,6 +1275,15 @@ public class GameActivity extends AppCompatActivity {
     private void forestMagicBook(){
         PlayerMaxHP+=10;
 
+    }
+
+    private void updatePlayerHPDisplay() {
+        TextView TEXPlayerHP = findViewById(R.id.pleyerHP);
+
+        // 🔴 画面表示を更新 (String.formatを使用して小数点以下を切り捨て)
+        // この形式が、My HP: xx/yy の表示に最適です。
+        String hpText = String.format("My HP: %.0f/%.0f", PlayerHP, PlayerMaxHP);
+        TEXPlayerHP.setText(hpText);
     }
 
 
