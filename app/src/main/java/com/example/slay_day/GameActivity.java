@@ -546,6 +546,18 @@ public class GameActivity extends AppCompatActivity {
                     if(i==4) card5.setImageResource(resId);
                 }
 
+                if(cardType.get(0)==27){ card1.setImageResource(R.drawable.a1); }
+                if(cardType.get(1)==27){ card2.setImageResource(R.drawable.a1); }
+                if(cardType.get(2)==27){ card3.setImageResource(R.drawable.a1); }
+                if(cardType.get(3)==27){ card4.setImageResource(R.drawable.a1); }
+                if(cardType.get(4)==27){ card5.setImageResource(R.drawable.a1); }
+
+                if(cardType.get(0)==28){ card1.setImageResource(R.drawable.a2); }
+                if(cardType.get(1)==28){ card2.setImageResource(R.drawable.a2); }
+                if(cardType.get(2)==28){ card3.setImageResource(R.drawable.a2); }
+                if(cardType.get(3)==28){ card4.setImageResource(R.drawable.a2); }
+                if(cardType.get(4)==28){ card5.setImageResource(R.drawable.a2); }
+
                 // --- 3-C: カードの数字の再設定 ---
                 TextView cardNum1 = (TextView)findViewById(R.id.textView4);
                 TextView cardNum2 = (TextView)findViewById(R.id.textView5);
@@ -582,11 +594,11 @@ public class GameActivity extends AppCompatActivity {
                     colorInt = Color.GRAY;
                     switch (cardTypeValue) {
                         case 1: // cardTypeが1の場合（例として）
-                            cardName = "バット (No." + cardNumValue + ")";
+                            cardName = "バット(No." + cardNumValue + ")";
                             cardEffect = "敵に" + cardNumValue * 3  + "ダメージを与える。";
                             break;
                         case 2: // cardTypeが2の場合
-                            cardName = "パンチ (No." + cardNumValue + ")";
+                            cardName = "パンチ(No." + cardNumValue + ")";
                             cardEffect = "敵に" + cardNumValue + "ダメージを与える。";
                             break;
                         case 3:
@@ -646,34 +658,50 @@ public class GameActivity extends AppCompatActivity {
                             cardEffect = "自分が回復した分のダメージを与える。";
                             break;
                         case 17:
-                            cardName = "エクゾディア(No." + cardNumValue + ")";
+                            cardName = "エクゾディア(頭)(No." + cardNumValue + ")";
                             cardEffect = "このカードが5枚揃うと無条件に勝利する。";
                             break;
                         case 18:
+                            cardName = "エクゾディア(右腕)(No." + cardNumValue + ")";
+                            cardEffect = "このカードが5枚揃うと無条件に勝利する。";
+                            break;
+                        case 19:
+                            cardName = "エクゾディア(左腕)(No." + cardNumValue + ")";
+                            cardEffect = "このカードが5枚揃うと無条件に勝利する。";
+                            break;
+                        case 20:
+                            cardName = "エクゾディア(右脚)(No." + cardNumValue + ")";
+                            cardEffect = "このカードが5枚揃うと無条件に勝利する。";
+                            break;
+                        case 21:
+                            cardName = "エクゾディア(左脚)(No." + cardNumValue + ")";
+                            cardEffect = "このカードが5枚揃うと無条件に勝利する。";
+                            break;
+                        case 22:
                             cardName = "リーフ(No." + cardNumValue + ")";
                             cardEffect = "敵に4ダメージを与える。";
                             break;
-                        case 19:
+                        case 23:
                             cardName = "肥料(No." + cardNumValue + ")";
                             cardEffect = "自分の最大体力を＋2する。";
                             break;
-                        case 20:
+                        case 24:
                             cardName = "木の魔導書(No." + cardNumValue + ")";
                             cardEffect = "自分の最大体力を＋4する。";
                             break;
-                        case 21:
+                        case 25:
                             cardName = "だいちのいかり(No." + cardNumValue + ")";
                             cardEffect = "現在の自分の体力分のダメージを与える。";
                             break;
-                        case 22:
+                        case 26:
                             cardName = "炎の魔導書(No." + cardNumValue + ")";
                             cardEffect = "火傷している敵の受けるダメージが4倍になる。";
                             break;
-                        case 23:
+                        case 27:
                             cardName = "滝の魔導書(No." + cardNumValue + ")";
                             cardEffect = "自分が敵に与えたダメージの分自分を回復する。";
                             break;
-                        case 24:
+                        case 28:
                             cardName = "森の魔導書(No." + cardNumValue + ")";
                             cardEffect = "自分の最大体力を＋10する。";
                             break;
