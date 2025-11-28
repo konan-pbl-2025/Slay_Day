@@ -535,10 +535,6 @@ public class GameActivity extends AppCompatActivity {
                         "カード使用結果: ダメージ " + totalDamage + " / 回復 " + totalHeal +
                                 "\n敵の攻撃: " + damageFromEnemy + " ダメージ受けた！"; // \nで改行
                 if(EnemyHP<=0){
-                    Intent intent = new Intent(GameActivity.this, GameClearActivity.class);
-                    startActivity(intent);
-                }
-                if(PlayerHP<=0){
                         Intent intent = new Intent(GameActivity.this, GameClearActivity.class);
                         startActivity(intent);
                 }else if(PlayerHP<=0){
