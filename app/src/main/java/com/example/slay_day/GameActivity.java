@@ -42,6 +42,8 @@ public class GameActivity extends AppCompatActivity {
     private int[][] EnemyState = new int[5][5];//やけどで例えると一次はやけどかどうか、二次はやけどが何ターン続くか
     private  double totalHeal=0;//どれだけ回復したか
     private double totalDamage=0;//どれだけ攻撃したか
+
+    private int useSize=0;
     boolean Dochange=true;
 
     @Override
@@ -55,6 +57,18 @@ public class GameActivity extends AppCompatActivity {
         TextView yaku = (TextView)findViewById(R.id.yaku);
         TEXEnemyHP.setText(String.valueOf(EnemyHP));
 
+        TextView use1 = (TextView)findViewById(R.id.use1);
+        TextView use2 = (TextView)findViewById(R.id.use2);
+        TextView use3 = (TextView)findViewById(R.id.use3);
+        TextView use4 = (TextView)findViewById(R.id.use4);
+        TextView use5 = (TextView)findViewById(R.id.use5);
+
+
+        use1.setText("");
+        use2.setText("");
+        use3.setText("");
+        use4.setText("");
+        use5.setText("");
 
 
         //カードの色関連
@@ -163,6 +177,7 @@ public class GameActivity extends AppCompatActivity {
         //ボタンの定義
         Button changeButton = (Button) findViewById(R.id.button2);
         Button PlayButton = (Button) findViewById(R.id.button3);
+
         changeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -657,6 +672,11 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void showCardDetail(CardData card, int i) {
+        TextView use1 = (TextView)findViewById(R.id.use1);
+        TextView use2 = (TextView)findViewById(R.id.use2);
+        TextView use3 = (TextView)findViewById(R.id.use3);
+        TextView use4 = (TextView)findViewById(R.id.use4);
+        TextView use5 = (TextView)findViewById(R.id.use5);
         // 1. カスタムスタイルを適用したBuilderの作成 (画面上部配置用)
         // R.style.TopHalfDialogStyle は前の回答で作成したスタイルです
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.TopHalfDialogStyle);
@@ -702,6 +722,22 @@ public class GameActivity extends AppCompatActivity {
                 if(!useCard.contains(i)) {
                     useCard.add(i);
                     useCardSet.add(i);
+                    useSize++;
+                    if(i==0){
+                        use1.setText(String.valueOf(useSize));
+                    }
+                    if(i==1){
+                        use2.setText(String.valueOf(useSize));
+                    }
+                    if(i==2){
+                        use3.setText(String.valueOf(useSize));
+                    }
+                    if(i==3){
+                        use4.setText(String.valueOf(useSize));
+                    }
+                    if(i==4){
+                        use5.setText(String.valueOf(useSize));
+                    }
                 }
 
                 Toast.makeText(GameActivity.this, card.name + "を使います！", Toast.LENGTH_SHORT).show();
