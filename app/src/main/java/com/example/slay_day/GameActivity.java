@@ -499,6 +499,15 @@ public class GameActivity extends AppCompatActivity {
                         "カード使用結果: ダメージ " + totalDamage + " / 回復 " + totalHeal +
                                 "\n敵の攻撃: " + damageFromEnemy + " ダメージ受けた！"; // \nで改行
                 Toast.makeText(GameActivity.this, resultMessage, Toast.LENGTH_LONG).show();
+                //選択状態解除
+                useSize=0;
+                use1.setText("");
+                use2.setText("");
+                use3.setText("");
+                use4.setText("");
+                use5.setText("");
+                useCard.clear();
+
                 // 1. 古いリストをクリア
                 currentHand.clear();
                 cardColor.clear();
@@ -1114,12 +1123,14 @@ public class GameActivity extends AppCompatActivity {
         int heal=2;//回復量
         PlayerHP=PlayerHP+heal*PlayerHealUP;
         totalHeal+=heal*PlayerHealUP;
+        if(PlayerHP>PlayerMaxHP) PlayerHP=PlayerMaxHP;
     }
 
     private void sportsDrink(){
         int heal=4;//回復量
         PlayerHP=PlayerHP+heal*PlayerHealUP;
         totalHeal+=heal*PlayerHealUP;
+        if(PlayerHP>PlayerMaxHP) PlayerHP=PlayerMaxHP;
     }
 
     private void fire(){
@@ -1167,6 +1178,7 @@ public class GameActivity extends AppCompatActivity {
         PlayerHP+=2*PlayerHealUP;
         totalDamage+=2*EnemyDefDown;
         totalHeal+=2*PlayerHealUP;
+        if(PlayerHP>PlayerMaxHP) PlayerHP=PlayerMaxHP;
     }
 
     private void aqourJet(){
@@ -1174,11 +1186,13 @@ public class GameActivity extends AppCompatActivity {
         PlayerHP+=4*PlayerHealUP;
         totalDamage+=2*EnemyDefDown;
         totalHeal+=4*PlayerHealUP;
+        if(PlayerHP>PlayerMaxHP) PlayerHP=PlayerMaxHP;
     }
 
     private void waterMagicBook(){
         PlayerHP+=10*PlayerHealUP;
         totalHeal+=10*PlayerHealUP;
+        if(PlayerHP>PlayerMaxHP) PlayerHP=PlayerMaxHP;
     }
 
     private void tunami(){
