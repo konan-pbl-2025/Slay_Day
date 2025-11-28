@@ -177,11 +177,19 @@ public class GameActivity extends AppCompatActivity {
         //ボタンの定義
         Button changeButton = (Button) findViewById(R.id.button2);
         Button PlayButton = (Button) findViewById(R.id.button3);
+        Button resetButton = (Button) findViewById(R.id.reset);
 
         changeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 currentHand.clear();
+                useSize=0;
+                use1.setText("");
+                use2.setText("");
+                use3.setText("");
+                use4.setText("");
+                use5.setText("");
+                useCard.clear();
                 if(Dochange){
                     //Dochange=false;
                     //ここで決めなおし
@@ -485,6 +493,19 @@ public class GameActivity extends AppCompatActivity {
                 }
                 TextView TEXEnemyHP = findViewById(R.id.ENEHP);
                 TEXEnemyHP.setText(String.valueOf(EnemyHP));
+            }
+        });
+
+        resetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                useSize=0;
+                use1.setText("");
+                use2.setText("");
+                use3.setText("");
+                use4.setText("");
+                use5.setText("");
+                useCard.clear();
             }
         });
 
