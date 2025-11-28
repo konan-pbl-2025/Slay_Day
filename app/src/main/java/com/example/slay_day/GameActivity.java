@@ -26,10 +26,22 @@ public class GameActivity extends AppCompatActivity {
     private ArrayList<Integer> useCard = new ArrayList<>();
     private HashSet<Integer> useCardSet = new HashSet<>();
 
-    private int PlayerHP = 20;
-    private int EnemyHP = 100;
-    private int EnemyATK = 2;
+
+    private double PlayerMaxHP = 20;
+    private double PlayerHP = PlayerMaxHP;
+    private double PlayerDef = 0;//防御カード使った時どれぐらいダメージ軽減するか
+    private double PlayerATKUP = 1;
+    private double PlayerHealUP = 1;
+
+    private double heroUP=1;//ヒーローマンと使ったときの上昇率
+    private double EnemyHP = 100;
+    private double EnemyATK = 2;
+    private double EnemyDefDown=1;//被ダメージ何倍か
+
+
     private int[][] EnemyState = new int[5][5];//やけどで例えると一次はやけどかどうか、二次はやけどが何ターン続くか
+    private  double totalHeal=0;//どれだけ回復したか
+    private double totalDamage=0;//どれだけ攻撃したか
     boolean Dochange=true;
 
     @Override
@@ -327,13 +339,52 @@ public class GameActivity extends AppCompatActivity {
                 String ans=judgeHand(useCardNum,useCardColor);
                 yaku.setText(ans);
                 if(!ans.equals("ブタ")){
+                    if(ans.equals("ツーペア")){
+                        EnemyDefDown=0.5;
+                        PlayerHealUP=0.5;
+                    }
+                    if(ans.equals("ストレート")){
+                        EnemyDefDown=0.5;
+                        PlayerHealUP=0.5;
+                    }
+                    if(ans.equals("フラッシュ")){
+                        EnemyDefDown=0.5;
+                        PlayerHealUP=0.5;
+                    }
+                    if(ans.equals("フルハウス")){
+                        EnemyDefDown=0.5;
+                        PlayerHealUP=0.5;
+                    }
+                    if(ans.equals("ストレートフラッシュ")){
+                        EnemyDefDown=0.5;
+                        PlayerHealUP=0.5;
+                    }
                     for(int i:useCard){
                         if(cardType.get(i)==1) bat();
                         if(cardType.get(i)==2) punch();
                         if(cardType.get(i)==3) kick();
-                        if(cardType.get(i)==4)tennensui();
+                        if(cardType.get(i)==4) tennensui();
                         if(cardType.get(i)==5) sportsDrink();
                         if(cardType.get(i)==6) fire();
+                        if(cardType.get(i)==7) match();
+                        if(cardType.get(i)==8) fireMagicBook();
+                        if(cardType.get(i)==9) firePunch();
+                        if(cardType.get(i)==10) leather();
+                        if(cardType.get(i)==11) iron();
+                        if(cardType.get(i)==12) heroMant();
+                        if(cardType.get(i)==13) aqour();
+                        if(cardType.get(i)==14) aqourJet();
+                        if(cardType.get(i)==15) waterMagicBook();
+                        if(cardType.get(i)==16) tunami();
+                        if(cardType.get(i)==17) bat();//考え中
+                        if(cardType.get(i)==18) leaf();
+                        if(cardType.get(i)==19) hiryou();
+                        if(cardType.get(i)==20) treeMagicBook();
+                        if(cardType.get(i)==21) angerOfEarth();
+                        if(cardType.get(i)==22) flameMagikBook();
+                        if(cardType.get(i)==23) takiMagicBook();
+                        if(cardType.get(i)==24) forestMagicBook();
+
                     }
                 }else{
                     bat();
@@ -596,32 +647,38 @@ public class GameActivity extends AppCompatActivity {
 
     private void bat(){
         int batDamage=2;//バットの攻撃力
-        EnemyHP=EnemyHP-batDamage;
+        EnemyHP=EnemyHP-batDamage*EnemyDefDown;
+        totalDamage+=batDamage*EnemyDefDown;
     }
 
     private void punch(){
         int punchDamage=1;//攻撃力
-        EnemyHP=EnemyHP-punchDamage;
+        EnemyHP=EnemyHP-punchDamage*EnemyDefDown*heroUP;
+        totalDamage+=punchDamage*EnemyDefDown*heroUP;
     }
 
     private void kick(){
         int kickDamage=1;//攻撃力
-        EnemyHP=EnemyHP-kickDamage;
+        EnemyHP=EnemyHP-kickDamage*EnemyDefDown+heroUP;
+        totalDamage=kickDamage*EnemyDefDown+heroUP;
     }
 
     private void tennensui(){
         int heal=2;//回復量
-        PlayerHP=PlayerHP+heal;
+        PlayerHP=PlayerHP+heal*PlayerHealUP;
+        totalHeal+=heal*PlayerHealUP;
     }
 
     private void sportsDrink(){
         int heal=4;//回復量
-        PlayerHP=PlayerHP+heal;
+        PlayerHP=PlayerHP+heal*PlayerHealUP;
+        totalHeal+=heal*PlayerHealUP;
     }
 
     private void fire(){
-        int fireDamage=4;//回復量
-        EnemyHP=EnemyHP-fireDamage;
+        int fireDamage=4;
+        EnemyHP=EnemyHP-fireDamage*EnemyDefDown;
+        totalDamage=fireDamage*EnemyDefDown;
     }
 
     private void match(){
@@ -634,11 +691,91 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void fireMagicBook(){
-        int EnemyHidame=2;//被ダメージ2倍
         if(EnemyState[0][0]==1) {
-            EnemyHP = EnemyHP - EnemyHidame;
+            EnemyDefDown*=2;
         }
     }
+
+    private void firePunch(){
+        EnemyState[0][0]=1;//やけど状態にする
+        EnemyState[0][1]=2;//何ターン続くか
+        EnemyHP-=EnemyHP*EnemyDefDown;
+        totalDamage+=EnemyHP*EnemyDefDown;
+    }
+
+    private void leather(){
+        PlayerDef+=1;
+    }
+
+    private void iron(){
+        PlayerDef+=5;
+    }
+
+    private void heroMant(){
+        heroUP=2;
+    }
+
+    private void aqour(){
+        EnemyHP-=2*EnemyDefDown;
+        PlayerHP+=2*PlayerHealUP;
+        totalDamage+=2*EnemyDefDown;
+        totalHeal+=2*PlayerHealUP;
+    }
+
+    private void aqourJet(){
+        EnemyHP-=2*EnemyDefDown;
+        PlayerHP+=4*PlayerHealUP;
+        totalDamage+=2*EnemyDefDown;
+        totalHeal+=4*PlayerHealUP;
+    }
+
+    private void waterMagicBook(){
+        PlayerHP+=10*PlayerHealUP;
+        totalHeal+=10*PlayerHealUP;
+    }
+
+    private void tunami(){
+        EnemyHP-=totalHeal;
+        totalDamage+=totalHeal;
+    }
+
+    private void leaf(){
+        EnemyHP-=4;
+        totalDamage+=4;
+    }
+
+    private void hiryou(){
+        PlayerMaxHP+=2;
+    }
+
+    private void treeMagicBook(){
+        PlayerMaxHP+=4;
+    }
+
+    private void angerOfEarth(){
+        EnemyHP-=PlayerHP;
+        totalDamage+=PlayerHP;
+    }
+
+    private void flameMagikBook(){
+        EnemyDefDown*=4;
+    }
+
+    private void takiMagicBook(){
+        EnemyHP-=totalDamage;
+        totalDamage+=totalHeal;
+    }
+
+    private void forestMagicBook(){
+        PlayerMaxHP+=10;
+
+    }
+
+
+
+
+
+
 
     public static String judgeHand(ArrayList<Integer> cardNum, ArrayList<Integer> cardColor) {
 
